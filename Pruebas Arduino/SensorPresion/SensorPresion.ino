@@ -11,6 +11,7 @@ void loop(){
   Serial.println(resRead); // Imprimos en la terminal que valores aparecen
     Serial.print("Valor en gramos: ");
   Serial.println(valorGramos); // Imprimos en la terminal que valores aparecen
+  delay(5000);
 }
 
 
