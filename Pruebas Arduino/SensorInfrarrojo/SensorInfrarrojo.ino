@@ -4,7 +4,7 @@ const int sensorInfrarojo = 0; // Definción del pin
 
 void setup() {
   Serial.begin(9600);
-  pinMode(sensorInfrarojo,INPUT) // Establecemos el pin
+  pinMode(sensorInfrarojo,INPUT); // Establecemos el pin
 }
 
 void loop() {
