@@ -10,3 +10,8 @@ https://programarfacil.com/blog/arduino-blog/reloj-con-arduino-rtc/
 https://www.arduino.cc/
 https://microlab.ec/blog/sensor-de-fuerza-fsr-406-con-arduino/
 http://misladrillos.com/ml/joomla/index.php/codigos-en-arduino/55-melodia-de-piratas-en-el-parlante-burrer-de-la-placa
+https://www.luisllamas.es/enviar-y-recibir-mensajes-por-mqtt-con-arduino-y-la-libreria-pubsubclient/
+https://www.arduino.cc/reference/en/language/functions/time/millis/
+https://aprendiendoarduino.wordpress.com/2016/06/30/multitarea-arduino/
+https://www.baldengineer.com/millis-tutorial.html
+https://github.com/knolleary/pubsubclient
