@@ -15,3 +15,4 @@ https://www.arduino.cc/reference/en/language/functions/time/millis/
 https://aprendiendoarduino.wordpress.com/2016/06/30/multitarea-arduino/
 https://www.baldengineer.com/millis-tutorial.html
 https://github.com/knolleary/pubsubclient
+https://sacavix.com/2020/02/mqtt-publish-subscribe-en-tiempo-real-ejemplo-java/

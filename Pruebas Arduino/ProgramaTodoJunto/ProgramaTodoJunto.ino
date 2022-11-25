@@ -19,6 +19,12 @@ const int pinInfrarojo=0;
 const int pinPresion=A0;
 time_t date = now();
 
+
+// Variables to manage millis() in order to avoid delay
+unsigned long previousMillisServo = 0;
+unsigned long previousMillisWBomb = 0;
+unsigned long servoInterval = 1000;
+unsigned long wBombInterval = 1000;
 void setup() {
   Serial.begin(115200);
    // Start conexion
@@ -48,13 +54,18 @@ void loop() {
 
 // Waterbomb behaviour
 void waterBomb(){
+  unsigned long currentMillis = millis();
   digitalWrite(pinwaterBomb,HIGH); // TURN ON BOMB
-  delay(10000); // Wait 10 secs
-  digitalWrite(pinwaterBomb,LOW); // TURN OFF BOMB
-  delay(10000);
+  if((unsigned long)(currentMillis - previousMillisWBomb) >= wBombInterval){
+      digitalWrite(pinwaterBomb,LOW); // TURN OFF BOMB
+      previousMillisWBomb = currentMillis;
+    }
+  //delay(10000); // Wait 10 secs
 }
 
 // Servomotor behaviour
+
+// IDEA CAMBIAR HORA POR UNA SEÑAL
 void servoMotor(){
   int h = (int) hour(date);
   int min = (int) minute(date);
@@ -78,9 +89,14 @@ void servoMotor(){
 
 // Servomotor movement
 void moverServo(){
+    unsigned long currentMillis = millis();
     servo.write(180);
-    delay(1000);
-    servo.write(90);
+    if((unsigned long)(currentMillis - previousMillisServo) >= servoInterval){
+      servo.write(90);
+      previousMillisServo = currentMillis;
+    }
+    //delay(1000);
+    
 }
 
 // Buzzer behaviour
