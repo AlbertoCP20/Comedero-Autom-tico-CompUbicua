@@ -1,7 +1,7 @@
-Comedero/Id/Sensor/Pressure1
+Comedero + Id/Sensor/Pressure1
 
-Comedero/Id/Sensor/Infrared
+Comedero + Id/Sensor/Infrared
 
-Comdero/Id/Sensor/Camera*
+Comedero + Id/Sensor/Camera*
 
-Comedero/Id/Hour
+Comedero + Id/Hour
