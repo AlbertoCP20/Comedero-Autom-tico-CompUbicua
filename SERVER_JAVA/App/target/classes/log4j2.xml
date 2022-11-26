@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" name="RoutingTest">
+    
+    <Appenders>
+        <!-- LOG -->
+        <Routing name="LogFile">
+            <Routes pattern="$${sd:type}">
+                <Route>
+                    <RollingFile name="Log" fileName="${env:CATALINA_HOME}/webapps/AppLog/logs/log.log"
+                        filePattern="${env:CATALINA_HOME}/webapps/AppLog/logs/App-%d{yyyy}.%i.log.gz">
+                        
+                        <PatternLayout
+                                pattern="%n%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %-30l %logger{36} ### %msg"
+				header="-- APP EXAMPLE --" />
+       
+                        <SizeBasedTriggeringPolicy size="10 MB" />
+                    </RollingFile>
+                </Route>
+            </Routes>
+        </Routing>
+        <!-- LOGDB -->
+        <Routing name="LogFileDB">
+            <Routes pattern="$${sd:type}">
+                <Route>
+                    <RollingFile name="LogDB" fileName="${env:CATALINA_HOME}/webapps/AppLog/logs/logdb.log"
+                        filePattern="${env:CATALINA_HOME}/webapps/AppLog/logs/App-%d{yyyy}.%i.logdb.gz">
+                        
+                        <PatternLayout
+                                pattern="%n%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %-30l %logger{36} ### %msg"
+				header="-- APP EXAMPLE --" />
+       
+                        <SizeBasedTriggeringPolicy size="10 MB" />
+                    </RollingFile>
+                    
+                </Route>
+            </Routes>
+        </Routing>
+        <!-- LOGMQTT -->
+        <Routing name="LogFileMQTT">
+            <Routes pattern="$${sd:type}">
+                <Route>
+                    <RollingFile name="LogDB" fileName="${env:CATALINA_HOME}/webapps/AppLog/logs/logmqtt.log"
+                        filePattern="${env:CATALINA_HOME}/webapps/AppLog/logs/App-%d{yyyy}.%i.logmqtt.gz">
+                        
+                        <PatternLayout
+                                pattern="%n%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %-30l %logger{36} ### %msg"
+				header="-- APP EXAMPLE --" />
+       
+                        <SizeBasedTriggeringPolicy size="10 MB" />
+                    </RollingFile>
+                    
+                </Route>
+            </Routes>
+        </Routing>
+    </Appenders>
+ 
+    <Loggers>
+        <!-- LOG -->
+        <Logger name="log" level="info" additivity="false">
+            <AppenderRef ref="LogFile"/>
+        </Logger>
+        
+        <!-- LOGDB -->
+        <Logger name="logdb" level="info" additivity="false">
+            <AppenderRef ref="LogFileDB"/>
+        </Logger>
+        
+        <!-- LOGMQTT -->
+        <Logger name="logmqtt" level="info" additivity="false">
+            <AppenderRef ref="LogFileMQTT"/>
+        </Logger>
+
+    </Loggers>
+ 
+</Configuration>

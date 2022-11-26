@@ -1,0 +1,13 @@
+db\Sensor.class
+db\Feeder.class
+mqtt\MQTTPublisher.class
+servlets\GetUsers.class
+mqtt\MQTTBroker.class
+db\Pet.class
+logic\Log.class
+db\User.class
+db\Topics.class
+logic\Logic.class
+db\Measurement.class
+db\ConnectionDDBB.class
+mqtt\MQTTSubscriber.class
