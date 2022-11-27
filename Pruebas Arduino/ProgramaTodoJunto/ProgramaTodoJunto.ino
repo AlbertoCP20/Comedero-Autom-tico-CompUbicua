@@ -17,14 +17,12 @@ const int pinServo =5;
 const int pinBuzzer=4;
 const int pinInfrarojo=0;
 const int pinPresion=A0;
-time_t date = now();
 
 
-// Variables to manage millis() in order to avoid delay
-unsigned long previousMillisServo = 0;
-unsigned long previousMillisWBomb = 0;
-unsigned long servoInterval = 1000;
-unsigned long wBombInterval = 1000;
+// Variables to manage weight
+const int maxFoodWeight = 1000; // The maximun amount of food that the bowl can hold
+const int maxWaterWeight = 1000; // The maximum amount of water the the bowl can hold
+
 void setup() {
   Serial.begin(115200);
    // Start conexion
@@ -40,211 +38,81 @@ void setup() {
 }
 
 void loop() {
+  unsigned long current = millis();
   HandleMqtt();
-
-  waterBomb();
-  servoMotor();
-  buzzer();
-  infraredSensor();
-  
-  PublisMqtt(pressureSensor());
-
-  delay(1000);
-}
-
-// Waterbomb behaviour
-void waterBomb(){
-  unsigned long currentMillis = millis();
-  digitalWrite(pinwaterBomb,HIGH); // TURN ON BOMB
-  if((unsigned long)(currentMillis - previousMillisWBomb) >= wBombInterval){
-      digitalWrite(pinwaterBomb,LOW); // TURN OFF BOMB
-      previousMillisWBomb = currentMillis;
-    }
-  //delay(10000); // Wait 10 secs
-}
-
-// Servomotor behaviour
-
-// IDEA CAMBIAR HORA POR UNA SEÑAL
-void servoMotor(){
-  int h = (int) hour(date);
-  int min = (int) minute(date);
-  int sec = (int) second(date);
-// Print the h
-  Serial.print("h: ");
-  Serial.print(h);
-  Serial.print(":");
-  Serial.print(min);
-  Serial.print(":");
-  Serial.println(sec);
-
-  if(h == 17 && min == 25 && sec == 30){
-  moverServo();
-  }else if(h == 17 && min == 26 && sec == 0){
-    moverServo();
-  }else if(h == 17 && min == 26 && sec == 30){
-    moverServo();
+  // If server wants to get the values of the weight and the infraredSensor
+  if(getContent() == "1S"){
+    PublishMqtt("Comedero1/Sensor/PressureF",pressureSensorF());
+    PublishMqtt("Comedero1/Sensor/PressureW",pressureSensorW());
+    PublishMqtt("Comedero1/Sensor/Infrared",infraredSensor());
   }
+  // If server send signal to refill food and water bowls
+  if(getContent() == "1A"){
+    Serial.println("SE HA ACTIVADO LA SEÑAL!!");
+
+    // Servomotor working 
+    int currentFoodWeight = pressureSensorF();
+    openServo();
+    while(currentFoodWeight <= maxFoodWeight){
+      currentFoodWeight = pressureSensorF();
+    }
+    closeServo();
+
+    // Waterbomb working 
+    int currentWaterWeight = pressureSensorW();
+    openBomb();
+    while(currentWaterWeight <= maxWaterWeight){
+      currentFoodWeight = pressureSensorW();
+    }
+    closeBomb();
+    
+
+  }
+
+  Serial.println("- - - - - - -");
+  delay(1000);
+
 }
 
-// Servomotor movement
-void moverServo(){
-    unsigned long currentMillis = millis();
+// Servomotor open
+void openServo(){
     servo.write(180);
-    if((unsigned long)(currentMillis - previousMillisServo) >= servoInterval){
-      servo.write(90);
-      previousMillisServo = currentMillis;
-    }
-    //delay(1000);
+}
+
+// Servomotor close
+void closeServo(){
+    servo.write(90);
     
 }
 
+// Waterbomb behaviour
+void openBomb(){
+  digitalWrite(pinwaterBomb,HIGH); // TURN ON BOMB
+}
+
+void closeBomb(){
+  digitalWrite(pinwaterBomb,LOW); // TURN OFF BOMB
+}
+
+
 // Buzzer behaviour
 void buzzer(){
-  int h = (int) hour(date);
-  int min = (int) minute(date);
-  int sec = (int) second(date);
-// Print h
-  Serial.print("h: ");
-  Serial.print(h);
-  Serial.print(":");
-  Serial.print(min);
-  Serial.print(":");
-  Serial.println(sec);
-
-  if(h == 18 && min == 1 && sec == 0){
     playSong();
-  }else if(h == 17 && min == 26 && sec == 0){
-    playSong();
-  }else if(h == 17 && min == 26 && sec == 30){
-    playSong();
-  }
 }
 
 // Reproduce caribbean pirates song.
 void playSong(){
   tone(pinBuzzer,293.66,200);
-  delay(100);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,200);
-  delay(200);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,200);
-  delay(200);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,200);
-  delay(200);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,200);
-  delay(200);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,200);
-  delay(200);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,200);
-  delay(200);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,200);
-  delay(200);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,200);
-  delay(200);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,293.66,100);
-  delay(100);
-  tone(pinBuzzer,440,100);
-  delay(100);
-  tone(pinBuzzer,523.25,100);
-  delay(100);
-  tone(pinBuzzer,587.33,100);
-  delay(200);
-  tone(pinBuzzer,587.33,100);
-  delay(200);
-  tone(pinBuzzer,587.33,100);
-  delay(100);
-  tone(pinBuzzer,659.25,100);
-  delay(100);
-  tone(pinBuzzer,698.45,100);
-  delay(200);
-  tone(pinBuzzer,698.45,100);
-  delay(200);
-  tone(pinBuzzer,698.45,100);
-  delay(100);
-  tone(pinBuzzer,783.99,100);
-  delay(100);
-  tone(pinBuzzer,659.25,100);
-  delay(200);
-  tone(pinBuzzer,659.25,100);
-  delay(200);
-  tone(pinBuzzer,587.33,100);
-  delay(100);
-  tone(pinBuzzer,523.25,100);
-  delay(100);
-  tone(pinBuzzer,523.25,100);
-  delay(100);
-  tone(pinBuzzer,587.33,100);
-  delay(300);
-  tone(pinBuzzer,440,100);
-  delay(100);
-  tone(pinBuzzer,523.25,100);
-  delay(100);
-  tone(pinBuzzer,587.33,100);
-  delay(200);
-  tone(pinBuzzer,587.33,100);
-  delay(200);
-  tone(pinBuzzer,587.33,100);
-  delay(100);
-  tone(pinBuzzer,659.25,100);
-  delay(100);
-  tone(pinBuzzer,698.45,100);
-  delay(200);
-  tone(pinBuzzer,698.45,100);
-  delay(200);
-  tone(pinBuzzer,698.45,100);
-  delay(100);
-  tone(pinBuzzer,783.99,100);
-  delay(100);
-  tone(pinBuzzer,659.25,100);
-  delay(200);
-  tone(pinBuzzer,659.25,100);
-  delay(200);
-  tone(pinBuzzer,587.33,100);
-  delay(100);
-  tone(pinBuzzer,523.25,100);
-  delay(100);
-  tone(pinBuzzer,587.33,100);
-  delay(400);
-  tone(pinBuzzer,440,100);
-  delay(100);
 }
 // Infrared sensor behaviour
-void infraredSensor(){
+int infraredSensor(){
   int detection = 0; // We capture what is happening with the sensor
   detection = digitalRead(pinInfrarojo);
-  if (detection == HIGH) {
-      Serial.println("CAREFULL!!!");
+  if (detection == LOW) {
+      Serial.println("Se está vaciando...");
+
   }
+  return detection;
 }
 
 // Pressure sensor behaviour

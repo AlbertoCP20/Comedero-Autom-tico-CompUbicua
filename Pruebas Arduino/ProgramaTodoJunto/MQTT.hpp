@@ -1,13 +1,13 @@
 WiFiClient espClient;
 PubSubClient mqttClient(espClient);  
-void SuscribeMqtt() {
-  mqttClient.subscribe("hello/world");
+void SuscribeMqtt(char* topic) {
+  mqttClient.subscribe(topic);
 }
 String payload;
-void PublisMqtt(unsigned long data) {  
+void PublishMqtt(char* topic,unsigned long data) {  
   payload = "";
   payload = String(data);  
-  mqttClient.publish("hello/world", (char*)payload.c_str());
+  mqttClient.publish(topic, (char*)payload.c_str());
 }
 String content = "";
 void OnMqttReceived(char* topic, byte* payload, unsigned int length) {
@@ -17,4 +17,8 @@ void OnMqttReceived(char* topic, byte* payload, unsigned int length) {
       content.concat((char)payload[i]);
   }
   Serial.print(content);  Serial.println();
+}
+
+String getContent(){
+  return content;
 }
