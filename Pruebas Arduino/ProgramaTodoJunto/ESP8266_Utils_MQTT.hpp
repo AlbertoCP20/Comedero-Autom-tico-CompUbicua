@@ -11,7 +11,7 @@ void ConnectMqtt() {
       Serial.print("Starting MQTT connection...");
           if (mqttClient.connect(MQTT_CLIENT_NAME,"",""))	{  
             Serial.println("Conexión completada");
-            SuscribeMqtt("Comedero1/Hour");
+            SuscribeMqtt("Comedero1/Signals");
             
       }
       else	{

@@ -38,7 +38,6 @@ void setup() {
 }
 
 void loop() {
-  unsigned long current = millis();
   HandleMqtt();
   // If server wants to get the values of the weight and the infraredSensor
   if(getContent() == "1S"){
@@ -65,8 +64,8 @@ void loop() {
       currentFoodWeight = pressureSensorW();
     }
     closeBomb();
-    
 
+    playSong();
   }
 
   Serial.println("- - - - - - -");
@@ -94,16 +93,6 @@ void closeBomb(){
   digitalWrite(pinwaterBomb,LOW); // TURN OFF BOMB
 }
 
-
-// Buzzer behaviour
-void buzzer(){
-    playSong();
-}
-
-// Reproduce caribbean pirates song.
-void playSong(){
-  tone(pinBuzzer,293.66,200);
-}
 // Infrared sensor behaviour
 int infraredSensor(){
   int detection = 0; // We capture what is happening with the sensor
@@ -115,8 +104,8 @@ int infraredSensor(){
   return detection;
 }
 
-// Pressure sensor behaviour
-int pressureSensor(){
+// Pressure sensor of food behaviour
+int pressureSensorF(){
   int resRead = analogRead(A0); // Read sensor value
   int valorGramos = map(resRead,0,1023,30,10000); // We change the analog range by one in grams
   Serial.print("Sensor de presion: ");
@@ -124,4 +113,134 @@ int pressureSensor(){
     Serial.print("Valor en gramos: ");
   Serial.println(valorGramos); // Print the conversion
   return valorGramos;
+}
+
+// Pressure sensor of water behaviour
+int pressureSensorW(){
+  int resRead = analogRead(A0); // Read sensor value
+  int valorGramos = map(resRead,0,1023,30,10000); // We change the analog range by one in grams
+  Serial.print("Sensor de presion: ");
+  Serial.println(resRead); // Print sensor values
+  Serial.print("Valor en gramos: ");
+  Serial.println(valorGramos); // Print the conversion
+  return valorGramos;
+}
+
+// Reproduce caribbean pirates song.
+void playSong(){
+  tone(pinBuzzer,293.66,200);
+  delay(100);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,200);
+  delay(200);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,200);
+  delay(200);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,200);
+  delay(200);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,200);
+  delay(200);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,200);
+  delay(200);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,200);
+  delay(200);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,200);
+  delay(200);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,200);
+  delay(200);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,293.66,100);
+  delay(100);
+  tone(pinBuzzer,440,100);
+  delay(100);
+  tone(pinBuzzer,523.25,100);
+  delay(100);
+  tone(pinBuzzer,587.33,100);
+  delay(200);
+  tone(pinBuzzer,587.33,100);
+  delay(200);
+  tone(pinBuzzer,587.33,100);
+  delay(100);
+  tone(pinBuzzer,659.25,100);
+  delay(100);
+  tone(pinBuzzer,698.45,100);
+  delay(200);
+  tone(pinBuzzer,698.45,100);
+  delay(200);
+  tone(pinBuzzer,698.45,100);
+  delay(100);
+  tone(pinBuzzer,783.99,100);
+  delay(100);
+  tone(pinBuzzer,659.25,100);
+  delay(200);
+  tone(pinBuzzer,659.25,100);
+  delay(200);
+  tone(pinBuzzer,587.33,100);
+  delay(100);
+  tone(pinBuzzer,523.25,100);
+  delay(100);
+  tone(pinBuzzer,523.25,100);
+  delay(100);
+  tone(pinBuzzer,587.33,100);
+  delay(300);
+  tone(pinBuzzer,440,100);
+  delay(100);
+  tone(pinBuzzer,523.25,100);
+  delay(100);
+  tone(pinBuzzer,587.33,100);
+  delay(200);
+  tone(pinBuzzer,587.33,100);
+  delay(200);
+  tone(pinBuzzer,587.33,100);
+  delay(100);
+  tone(pinBuzzer,659.25,100);
+  delay(100);
+  tone(pinBuzzer,698.45,100);
+  delay(200);
+  tone(pinBuzzer,698.45,100);
+  delay(200);
+  tone(pinBuzzer,698.45,100);
+  delay(100);
+  tone(pinBuzzer,783.99,100);
+  delay(100);
+  tone(pinBuzzer,659.25,100);
+  delay(200);
+  tone(pinBuzzer,659.25,100);
+  delay(200);
+  tone(pinBuzzer,587.33,100);
+  delay(100);
+  tone(pinBuzzer,523.25,100);
+  delay(100);
+  tone(pinBuzzer,587.33,100);
+  delay(400);
+  tone(pinBuzzer,440,100);
+  delay(100);
+  noTone(pinBuzzer);
 }
