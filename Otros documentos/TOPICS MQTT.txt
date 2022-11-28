@@ -1,7 +1,21 @@
-Comedero + Id/Sensor/Pressure1
+#Orientativo, yo lo pongo por si a caso lo llegamos a implementar
+#Es para tener hecha la estructura
 
-Comedero + Id/Sensor/Infrared
+# Lo que esta entre comillas es un numero
+# value es el valor
+#IdComedero --> [1 - n]
 
-Comedero + Id/Sensor/Camera*
+#IdSensor --> presion = 1
+              infracomida = 2
+              infraagua = 3
+              
+#IdActuador -->   servo = 1
+                  camara = 2
 
-Comedero + Id/Hour
+
+#Topics
+
+Comedero/'IdComedero'/'IdSensor'/value
+
+Comedero/'IdComedero'/'IdActuador'/señal
+
