@@ -15,7 +15,7 @@
 
 #Topics
 
-Comedero/'IdComedero'/'IdSensor'/value
+Comedero/'IdComedero'/sensor/'IdSensor'/value
 
-Comedero/'IdComedero'/'IdActuador'/señal
+Comedero/'IdComedero'/actuador/'IdActuador'/señal
 
