@@ -1,36 +1,22 @@
-#include <Time.h>
-#include <TimeLib.h>
 int sound = 12;// definir pin
-time_t fecha;
-
+bool test = true;
 void setup() {
-  setTime(18, 1, 0, 9, 11, 2022);
-  Serial.begin(9600);
+  Serial.begin(115200);
   // Obtenemos la fecha actual
-  fecha = now();
 
   pinMode (sound, OUTPUT); // Pin como salida
 }
  
 void loop() {
-  int hora = (int) hour(fecha);
-  int minuto = (int) minute(fecha);
-  int segundo = (int) second(fecha);
-// Imprimimos la hora
-  Serial.print("Hora: ");
-  Serial.print(hora);
-  Serial.print(":");
-  Serial.print(minuto);
-  Serial.print(":");
-  Serial.println(segundo);
-
-  if(hora == 18 && minuto == 1 && segundo == 0){
+  
+  Serial.println("Empiezo");
+  if(test){
     reproducirCancion();
-  }else if(hora == 17 && minuto == 26 && segundo == 0){
-    reproducirCancion();
-  }else if(hora == 17 && minuto == 26 && segundo == 30){
-    reproducirCancion();
+    test = false;
+  }else{
+    noTone(sound);
   }
+  Serial.println("Acabo");
   delay(1000);
 }
 
