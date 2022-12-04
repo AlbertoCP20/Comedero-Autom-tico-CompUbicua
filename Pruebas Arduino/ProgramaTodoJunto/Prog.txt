@@ -1,4 +1,4 @@
-#include <Time.h>
+º#include <Time.h>
 #include <TimeLib.h>
 #include <Servo.h>
 #include <ESP8266WiFi.h>
@@ -110,27 +110,6 @@ int infraredSensor(){
   return detection;
 }
 
-// Pressure sensor of food behaviour
-int pressureSensorF(){
-  int resRead = analogRead(A0); // Read sensor value
-  int valorGramos = map(resRead,0,1023,30,10000); // We change the analog range by one in grams
-  Serial.print("Sensor de presion: ");
-  Serial.println(resRead); // Print sensor values
-    Serial.print("Valor en gramos: ");
-  Serial.println(valorGramos); // Print the conversion
-  return valorGramos;
-}
-
-// Pressure sensor of water behaviour
-int pressureSensorW(){
-  int resRead = analogRead(A0); // Read sensor value
-  int valorGramos = map(resRead,0,1023,30,10000); // We change the analog range by one in grams
-  Serial.print("Sensor de presion: ");
-  Serial.println(resRead); // Print sensor values
-  Serial.print("Valor en gramos: ");
-  Serial.println(valorGramos); // Print the conversion
-  return valorGramos;
-}
 
 // Reproduce caribbean pirates song.
 void playSong(){

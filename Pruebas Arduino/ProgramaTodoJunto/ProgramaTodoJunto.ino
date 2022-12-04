@@ -1,5 +1,3 @@
-#include <Time.h>
-#include <TimeLib.h>
 #include <Servo.h>
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
@@ -17,16 +15,15 @@
 Servo servo;
 
 // Pin intialitation
-const int pinwaterBomb = 16;
-const int pinServo =5;
-const int pinBuzzer=4;
-const int pinInfrarojo=0;
-const int pinPresion=A0;
+const int pinwaterBomb = 16; //D0
+const int pinServo =5; //D1
+const int pinBuzzer=4; //D2
+const int pinInfrarojo=0; //D3
 
 
 // Variables to manage weight
-const int maxFoodWeight = 1000; // The maximun amount of food that the bowl can hold
-const int maxWaterWeight = 1000; // The maximum amount of water the the bowl can hold
+float maxFoodWeight = 1000; // The maximun amount of food that the bowl can hold
+float currentFoodWeight = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -34,6 +31,10 @@ void setup() {
   SPIFFS.begin();
   ConnectWiFi_STA();
   InitMqtt();
+
+  // Setup pressure sensor
+  initPressureSensor();
+
   // Establish pinMode
   pinMode(pinwaterBomb,OUTPUT);
   servo.attach(pinServo,500,2500); // Initialize servo, pin 5 from 500ms = 0º to 2500ms = 180º
@@ -44,34 +45,53 @@ void setup() {
 
 void loop() {
   HandleMqtt();
-  PublishMqtt("Comedero1/Signals",1);
+  if(isTopicRacion()){
+    maxFoodWeight = getContent().toFloat();
+    setTopicDefault();
+  }
   // If server wants to get the values of the weight and the infraredSensor
   if(getContent() == "1"){
-    PublishMqtt("Comedero1/Sensor/PressureF",pressureSensorF());
-    PublishMqtt("Comedero1/Sensor/PressureW",pressureSensorW());
+    for(int j =0; j <100;j++){
+      currentFoodWeight = getPressureSensorValue();
+    }
+    if(currentFoodWeight < 0){
+      currentFoodWeight = 0;
+    }
+    PublishMqtt("Comedero1/Sensor/PressureF",currentFoodWeight);
     PublishMqtt("Comedero1/Sensor/Infrared",infraredSensor());
+    PublishMqtt("Comedero1/Signals",0);
   }
   // If server send signal to refill food and water bowls
   if(getContent() == "2"){
+    PublishMqtt("Comedero1/Signals",0);
     Serial.println("SE HA ACTIVADO LA SEÑAL!!");
 
     // Servomotor working 
-    int currentFoodWeight = pressureSensorF();
+    float currentFoodWeight = getPressureSensorValue();
+    // Time to reset the weight
+    for(int j =0; j <100;j++){
+      currentFoodWeight = getPressureSensorValue();
+    }
+
     openServo();
     while(currentFoodWeight <= maxFoodWeight){
-      currentFoodWeight = pressureSensorF();
+      currentFoodWeight = getPressureSensorValue();
+      Serial.println(currentFoodWeight);
     }
+    Serial.println("CERRAR");
     closeServo();
+    
 
-    // Waterbomb working 
+    /*// Waterbomb working 
     int currentWaterWeight = pressureSensorW();
     openBomb();
     while(currentWaterWeight <= maxWaterWeight){
       currentFoodWeight = pressureSensorW();
     }
-    closeBomb();
+    closeBomb();*/
 
     playSong();
+    
   }
 
   Serial.println("- - - - - - -");
@@ -103,33 +123,11 @@ void closeBomb(){
 int infraredSensor(){
   int detection = 0; // We capture what is happening with the sensor
   detection = digitalRead(pinInfrarojo);
-  if (detection == LOW) {
+  if (detection == HIGH) {
       Serial.println("Se está vaciando...");
 
   }
   return detection;
-}
-
-// Pressure sensor of food behaviour
-int pressureSensorF(){
-  int resRead = analogRead(A0); // Read sensor value
-  int valorGramos = map(resRead,0,1023,30,10000); // We change the analog range by one in grams
-  Serial.print("Sensor de presion: ");
-  Serial.println(resRead); // Print sensor values
-    Serial.print("Valor en gramos: ");
-  Serial.println(valorGramos); // Print the conversion
-  return valorGramos;
-}
-
-// Pressure sensor of water behaviour
-int pressureSensorW(){
-  int resRead = analogRead(A0); // Read sensor value
-  int valorGramos = map(resRead,0,1023,30,10000); // We change the analog range by one in grams
-  Serial.print("Sensor de presion: ");
-  Serial.println(resRead); // Print sensor values
-  Serial.print("Valor en gramos: ");
-  Serial.println(valorGramos); // Print the conversion
-  return valorGramos;
 }
 
 // Reproduce caribbean pirates song.

@@ -40,18 +40,19 @@ float getPressureSensorValue() {
   const int serialPrintInterval = 0; //increase value to slow down serial print activity
   float i=0;
   // check for new data/start next conversion:
-  if (LoadCell.update()) newDataReady = true;
+  LoadCell.update();
+  i = LoadCell.getData();
 
   // get smoothed value from the dataset:
-  if (newDataReady) {
+  /*if (newDataReady) {
     if (millis() > t + serialPrintInterval) {
-      i = LoadCell.getData();
-      Serial.print("Load_cell output val: ");
-      Serial.println(i);
+      
+      //Serial.print("Load_cell output val: ");
+      //Serial.println(i);
       newDataReady = 0;
       t = millis();
     }
-  }
+  }*/
 
   // receive command from serial terminal, send 't' to initiate tare operation:
   if (Serial.available() > 0) {
@@ -63,5 +64,15 @@ float getPressureSensorValue() {
   if (LoadCell.getTareStatus() == true) {
     Serial.println("Tare complete");
   }
+  delay(15);
+  return i;
 
+}
+
+void tare(){
+  LoadCell.tareNoDelay();
+  // check if last tare operation is complete:
+  if (LoadCell.getTareStatus() == true) {
+    Serial.println("Tare complete");
+  }
 }

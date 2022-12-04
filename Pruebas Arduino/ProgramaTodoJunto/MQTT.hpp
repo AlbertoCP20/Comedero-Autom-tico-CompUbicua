@@ -10,8 +10,10 @@ void PublishMqtt(char* topic,unsigned long data) {
   mqttClient.publish(topic, (char*)payload.c_str());
 }
 String content = "";
+String top = "";
 void OnMqttReceived(char* topic, byte* payload, unsigned int length) {
   Serial.print("Received on ");  Serial.print(topic);  Serial.print(": ");
+  top = topic;
   content = "";
   for (size_t i = 0; i < length; i++) {  
       content.concat((char)payload[i]);
@@ -21,4 +23,16 @@ void OnMqttReceived(char* topic, byte* payload, unsigned int length) {
 
 String getContent(){
   return content;
+}
+
+bool isTopicRacion(){
+  bool flag = false;
+  if(top.equals("Comedero1/Racion")){
+    flag = true;
+  }
+  return flag;
+}
+
+void setTopicDefault(){
+  top = "";
 }
