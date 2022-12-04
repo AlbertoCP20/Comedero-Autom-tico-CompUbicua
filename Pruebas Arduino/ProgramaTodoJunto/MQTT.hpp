@@ -21,10 +21,12 @@ void OnMqttReceived(char* topic, byte* payload, unsigned int length) {
   Serial.print(content);  Serial.println();
 }
 
+// Gets the value of the content we receive from a topic
 String getContent(){
   return content;
 }
 
+// Checks the topic from which the data is received. If topic == Comedero1/Racion then true
 bool isTopicRacion(){
   bool flag = false;
   if(top.equals("Comedero1/Racion")){
@@ -33,6 +35,7 @@ bool isTopicRacion(){
   return flag;
 }
 
+// Resets topic
 void setTopicDefault(){
   top = "";
 }

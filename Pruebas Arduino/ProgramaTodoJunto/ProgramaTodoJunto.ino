@@ -19,11 +19,14 @@ const int pinwaterBomb = 16; //D0
 const int pinServo =5; //D1
 const int pinBuzzer=4; //D2
 const int pinInfrarojo=0; //D3
+const int pinStrength = A0;
 
 
 // Variables to manage weight
 float maxFoodWeight = 1000; // The maximun amount of food that the bowl can hold
+float maxWaterWeight = 200; // The maximum amount of water that the bowl can hold
 float currentFoodWeight = 0;
+float currentWaterWeight = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -45,25 +48,32 @@ void setup() {
 
 void loop() {
   HandleMqtt();
+
+  // If the user set his/her own ration, then change the value of the maximun weight
   if(isTopicRacion()){
     maxFoodWeight = getContent().toFloat();
     setTopicDefault();
   }
   // If server wants to get the values of the weight and the infraredSensor
   if(getContent() == "1"){
+    // Time to reset the weight
     for(int j =0; j <100;j++){
       currentFoodWeight = getPressureSensorValue();
     }
+    // Avoid negative values
     if(currentFoodWeight < 0){
       currentFoodWeight = 0;
     }
     PublishMqtt("Comedero1/Sensor/PressureF",currentFoodWeight);
     PublishMqtt("Comedero1/Sensor/Infrared",infraredSensor());
+    // Reset signals
     PublishMqtt("Comedero1/Signals",0);
   }
+
   // If server send signal to refill food and water bowls
   if(getContent() == "2"){
     PublishMqtt("Comedero1/Signals",0);
+    
     Serial.println("SE HA ACTIVADO LA SEÑAL!!");
 
     // Servomotor working 
@@ -77,21 +87,25 @@ void loop() {
     while(currentFoodWeight <= maxFoodWeight){
       currentFoodWeight = getPressureSensorValue();
       Serial.println(currentFoodWeight);
+      // Keep data from MQTT (this is here because of a bug, if too much time were spent in this loop, the part of refill was called again and again)
+      mqttClient.loop();
     }
-    Serial.println("CERRAR");
     closeServo();
-    
 
-    /*// Waterbomb working 
-    int currentWaterWeight = pressureSensorW();
+    // Waterbomb working 
+    currentWaterWeight = analogRead(pinStrength);
     openBomb();
     while(currentWaterWeight <= maxWaterWeight){
-      currentFoodWeight = pressureSensorW();
-    }
-    closeBomb();*/
+      currentWaterWeight = analogRead(pinStrength);
+      Serial.println(currentWaterWeight);
+      // Keep data from MQTT (this is here because of a bug, if too much time were spent in this loop, the part of refill was called again and again)
+      mqttClient.loop();
 
+    }
+    closeBomb();
+
+    // Start buzzer
     playSong();
-    
   }
 
   Serial.println("- - - - - - -");

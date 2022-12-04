@@ -1,6 +1,6 @@
 //pins:
-const int HX711_dout = 13; //mcu > HX711 dout pin 7
-const int HX711_sck = 15; //mcu > HX711 sck pin 8
+const int HX711_dout = 13; //mcu > HX711 dout pin D7
+const int HX711_sck = 15; //mcu > HX711 sck pin D8
 
 //HX711 constructor:
 HX711_ADC LoadCell(HX711_dout, HX711_sck);
@@ -43,16 +43,6 @@ float getPressureSensorValue() {
   LoadCell.update();
   i = LoadCell.getData();
 
-  // get smoothed value from the dataset:
-  /*if (newDataReady) {
-    if (millis() > t + serialPrintInterval) {
-      
-      //Serial.print("Load_cell output val: ");
-      //Serial.println(i);
-      newDataReady = 0;
-      t = millis();
-    }
-  }*/
 
   // receive command from serial terminal, send 't' to initiate tare operation:
   if (Serial.available() > 0) {
@@ -69,6 +59,7 @@ float getPressureSensorValue() {
 
 }
 
+// Tare the weight
 void tare(){
   LoadCell.tareNoDelay();
   // check if last tare operation is complete:
