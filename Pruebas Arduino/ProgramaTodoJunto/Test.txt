@@ -3,11 +3,16 @@
 #include <Servo.h>
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
+#include <HX711_ADC.h>
+#if defined(ESP8266)|| defined(ESP32) || defined(AVR)
+#include <EEPROM.h>
+#endif
 
 #include "config.h"// Configuraton file
 #include "MQTT.hpp"//MQTT functions
 #include "ESP8266_Utils.hpp"//Wifi connection
 #include "ESP8266_Utils_MQTT.hpp"//MQTT Connection
+#include "PressureSensor.hpp"
 
 Servo servo;
 
@@ -29,6 +34,11 @@ void setup() {
   //SPIFFS.begin();
   //ConnectWiFi_STA();
   //InitMqtt();
+
+  // Setup pressure sensor
+  initPressureSensor();
+
+
   // Establish pinMode
   pinMode(pinwaterBomb,OUTPUT);
   servo.attach(pinServo,500,2500); // Initialize servo, pin 5 from 500ms = 0º to 2500ms = 180º
