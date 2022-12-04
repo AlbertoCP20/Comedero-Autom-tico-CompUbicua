@@ -114,11 +114,19 @@ public class ConnectionDDBB {
     //-------------------- CALLS TO THE DATABASE -----------------------------
     
     public static PreparedStatement GetUsers(Connection con) {
-        return getStatement(con, "SELECT * FROM USERS;");
+        return getStatement(con, "SELECT * FROM USER;");
     }
     
-    public static PreparedStatement GetIdFeeders(Connection con) {
-        return getStatement(con, "SELECT ID_FEEDER FROM FEEDER");
+    public static PreparedStatement GetFeeders(Connection con) {
+        return getStatement(con, "SELECT * FROM FEEDER");
+    }
+    
+    public static PreparedStatement GetSchedule(Connection con) {
+        return getStatement(con, "SELECT * FROM SCHEDULE");
+    }
+    
+    public static PreparedStatement InsertNewMeasurement(Connection con) {
+        return getStatement(con, "INSERT INTO RECORD (FECHA, HORA, VALUE, ID_SENSOR_MACHINE, ID_FEEDER_MACHINE) VALUES (?, ?, ?, ?, ?)");
     }
     
 }

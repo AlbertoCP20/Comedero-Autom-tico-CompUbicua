@@ -4,9 +4,41 @@
         <servlet-name>GetUsers</servlet-name>
         <servlet-class>servlets.GetUsers</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SetFeeder</servlet-name>
+        <servlet-class>servlets.SetFeeder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetFeeders</servlet-name>
+        <servlet-class>servlets.GetFeeders</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetSchedules</servlet-name>
+        <servlet-class>servlets.GetSchedules</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SetSchedule</servlet-name>
+        <servlet-class>servlets.SetSchedule</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GetUsers</servlet-name>
         <url-pattern>/GetUsers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SetFeeder</servlet-name>
+        <url-pattern>/SetFeeder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetFeeders</servlet-name>
+        <url-pattern>/GetFeeders</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetSchedules</servlet-name>
+        <url-pattern>/GetSchedules</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SetSchedule</servlet-name>
+        <url-pattern>/SetSchedule</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

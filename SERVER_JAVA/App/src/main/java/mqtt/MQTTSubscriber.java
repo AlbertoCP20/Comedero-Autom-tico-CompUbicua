@@ -13,8 +13,12 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 
 import db.ConnectionDDBB;
-import db.Topics;
+import db.Topic;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import logic.Log;
+import logic.Logic;
 
 
 /**
@@ -24,6 +28,7 @@ import logic.Log;
 public class MQTTSubscriber implements MqttCallback{
     
     public void searchTopicsToSubscribe(MQTTBroker broker) {
+        Log.logmqtt.info("Search topics to subscribe");
         ConnectionDDBB conector = new ConnectionDDBB();
         Connection con = null;
         ArrayList<String> topics = new ArrayList<>();
@@ -32,18 +37,27 @@ public class MQTTSubscriber implements MqttCallback{
             con = conector.obtainConnection(true);
             Log.logmqtt.debug("Database connected");
             
-            //PreparedStatement 
+            //Get feeders to search the topic
+            PreparedStatement  psFeeders = ConnectionDDBB.GetFeeders(con);
+            Log.logmqtt.debug("Query to search feeders => {}", psFeeders.toString());
+            ResultSet rsFeeders = psFeeders.executeQuery();
+            
+            while (rsFeeders.next()) {
+                topics.add("Comedero" + rsFeeders.getInt("id_feeder") + "/#");
+            }
+            
+            subscribeTopic(broker, topics);
             
         } catch (NullPointerException npe) {
             Log.logmqtt.error("Error: {]", npe);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Log.logmqtt.error("Error:{}", e);
         } finally {
             conector.closeConnection(con);
         }
     }
     
-    public void subscribeTopic(MQTTBroker broker, ArrayList<String> topics) throws MqttException {
+    public void subscribeTopic(MQTTBroker broker, ArrayList<String> topics) {
         Log.logmqtt.debug("Subscribe to topics");
         MemoryPersistence persistence = new MemoryPersistence();
         
@@ -51,9 +65,9 @@ public class MQTTSubscriber implements MqttCallback{
             MqttClient sampleClient = new MqttClient(MQTTBroker.getBroker(), MQTTBroker.getClientId(), persistence);
             MqttConnectOptions connOpts = new MqttConnectOptions();
             connOpts.setCleanSession(true);
-            Log.logmqtt.debug("Mqtt Connecting to broker: " + MQTTBroker.getBroker());
+            Log.logmqtt.info("Mqtt Connecting to broker: " + MQTTBroker.getBroker());
             sampleClient.connect(connOpts);
-            Log.logmqtt.debug("Mqtt Connected");
+            Log.logmqtt.info("Mqtt Connected");
             sampleClient.setCallback(this);
             
             for (int i = 0; i < topics.size(); i++) {
@@ -62,9 +76,9 @@ public class MQTTSubscriber implements MqttCallback{
             }
             
         } catch (MqttException me) {
-            Log.logmqtt.error("Error subscribing topic: {}", me);
+            Log.logmqtt.info("Error subscribing topic: {}", me);
         } catch (Exception e) {
-            Log.logmqtt.error("Error subscribing topic: {}", e);
+            Log.logmqtt.info("Error subscribing topic: {}", e);
         }
     }
     
@@ -77,7 +91,22 @@ public class MQTTSubscriber implements MqttCallback{
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         Log.logmqtt.info("{}: {}", topic, message.toString());
         String[] topics = topic.split("/");
-        Topics newTopic = new Topics();
+        Topic newTopic = new Topic();
+        
+        if (topic.contains("Sensor")) {
+            
+            newTopic.setIdFeeder(topics[0].replace("Comedero", ""));
+            newTopic.setIdSensor(Integer.parseInt(topics[1].replace("Sensor", "")));
+            newTopic.setValor(Float.parseFloat(message.toString()));
+            
+            Log.logmqtt.info("Mensaje from feeder{}, sensor{}: {}", 
+                            newTopic.getIdFeeder(), newTopic.getIdSensor(), message.toString());
+            
+            Logic.storeNewMeasurement(newTopic);
+        }
+        else if (topic.contains("Actuador")) {
+            
+        }
         
     }
     

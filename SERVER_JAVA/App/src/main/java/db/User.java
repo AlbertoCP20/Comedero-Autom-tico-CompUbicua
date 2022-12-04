@@ -8,9 +8,10 @@ import java.util.Date;
  */
 public class User {
     
-    private int id_user;
+    private int idUser;
     private String name;
-    private String last_name;
+    private String firstSurname;
+    private String secondSurname;
     private Date birthday;
     private char gender;
     private String email;
@@ -21,16 +22,20 @@ public class User {
         
     }
     
-    public int getId() {
-        return id_user;
+    public int getIdUSer() {
+        return idUser;
     }
     
     public String getName() {
         return name;
     }
-    
-    public String getLastName() {
-        return last_name;
+
+    public String getFirstSurname() {
+        return firstSurname;
+    }
+
+    public String getSecondSurname() {
+        return secondSurname;
     }
     
     public Date getBirthday() {
@@ -53,16 +58,20 @@ public class User {
         return photo;
     }
     
-    public void setId(int id_user) {
-        this.id_user = id_user;
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
     
     public void setName(String name) {
         this.name = name;
     }
-    
-    public void setLastName(String last_name) {
-        this.last_name = last_name;
+
+    public void setFirstSurname(String firstSurname) {
+        this.firstSurname = firstSurname;
+    }
+
+    public void setSecondSurname(String secondSurname) {
+        this.secondSurname = secondSurname;
     }
     
     public void setBirthday(Date birthday) {
