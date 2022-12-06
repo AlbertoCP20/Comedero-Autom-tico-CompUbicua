@@ -13,6 +13,8 @@ public class Pet {
     private Date birthday;
     private char gender;
     private String breed;
+    private float weight;
+    private byte photo;
     private int idOwner;
     
     public Pet() {
@@ -43,6 +45,14 @@ public class Pet {
         return idOwner;
     }
 
+    public float getWeight() {
+        return weight;
+    }
+
+    public byte getPhoto() {
+        return photo;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -65,6 +75,14 @@ public class Pet {
 
     public void setIdOwner(int idOwner) {
         this.idOwner = idOwner;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public void setPhoto(byte photo) {
+        this.photo = photo;
     }
     
 }

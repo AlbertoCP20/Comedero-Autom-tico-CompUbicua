@@ -5,39 +5,44 @@ CREATE TABLE USER(id_user int, name varchar(40), first_surname varchar(40), sec_
 birthday date, gender char, email varchar(40), password varchar(40), photo longblob, 
 primary key(id_user));
 
-- Pet
+-- Pet
 CREATE TABLE PET(id_pet int, name varchar(40), birthday date, gender char, breed varchar(30), 
-weigth int, photo longblob, id_user_owner integer references USER(id_user) 
+weight int, photo longblob, id_user_owner integer references USER(id_user) 
 on delete restrict on update restrict, primary key(id_pet));
 
-- Feeder
+-- Feeder
 CREATE TABLE FEEDER(id_feeder varchar(40), id_user_landlord int references USER(id_user) 
 on delete restrict on update restrict, primary key(id_feeder));
 
-- Sensor *
+-- Sensor *
 CREATE TABLE SENSOR(id_sensor int, type varchar(40), id_owner_feeder varchar(40) references FEEDER(id_feeder)
 on delete restrict on update restrict, primary key(id_sensor, id_owner_feeder));
 
-- registro *
+-- registro *
 CREATE TABLE RECORD(fecha date, hora time, value float, id_sensor_machine int references SENSOR(id_sensor)
 on delete restrict on update restrict, id_feeder_machine varchar(40) references FEEDER(id_feeder)
 on delete restrict on update restrict);
 
-- Water dispenser
+-- Water dispenser
 CREATE TABLE WATERDISPENSER(porcentaje float, vacio bool, id_owner_feeder varchar(40) references FEEDER(id_feeder)
 on delete restrict on update restrict, id_sensor_water int references SENSOR(id_sensor)
 on delete restrict on update restrict, primary key(id_owner_feeder, id_sensor_water));
 
-- Food dispenser
+-- Food dispenser
 CREATE TABLE FOODDISPENSER(porcentaje float, vacio bool, id_owner_feeder varchar(40) references FEEDER(id_feeder)
 on delete restrict on update restrict, id_sensor_food int references SENSOR(id_sensor)
 on delete restrict on update restrict, primary key(id_owner_feeder, id_sensor_food));
 
 
-- Schedule
+-- Schedule
 CREATE TABLE SCHEDULE(id_schedule int, food_time time, weight float,
 id_feeder varchar(40) references FEEDER(id_feeder) on delete restrict on update restrict, 
 primary key(id_schedule, id_feeder));
+
+
+
+Borrar Feeder
+Orden: Schedule, fooddispenser, waterdispenser, record, sensor, feeder
 
 
 

@@ -1,6 +1,8 @@
 package servlets;
 
+import com.google.gson.Gson;
 import db.Feeder;
+import db.RecordJafe;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -30,10 +32,51 @@ public class SetFeeder extends HttpServlet {
         
         Log.log.info("-- Register new feeder " + request.getParameter("idFeeder")+" --");
         response.setContentType("text/html;charset=UTF-8");
-        Feeder newFeeder = new Feeder();
         PrintWriter out = response.getWriter();
         
-        ArrayList<Feeder> feederList = Logic.getFeedersFromDB();
+        try {
+            ArrayList<Feeder> feederList = Logic.getFeedersFromDB();
+            ArrayList<String> idFeeders = new ArrayList<String>();
+            
+            for (int i = 0; i < feederList.size(); i++) {
+                idFeeders.add(feederList.get(i).getIdFeeder());
+            }
+            
+            if (idFeeders.contains(request.getParameter("idFeeder"))) {
+                String jsonResponse = new Gson().toJson(-1);
+                Log.log.info("JSON Values=> {}", jsonResponse);
+                out.println(jsonResponse);
+            }
+            else {
+                Feeder newFeeder = new Feeder();
+                newFeeder.setIdFeeder(request.getParameter("idFeeder"));
+                newFeeder.setIdUser(Integer.parseInt(request.getParameter("idUser")));
+                Logic.registerNewFeeder(newFeeder);
+                
+                String jsonResponse = new Gson().toJson(0);
+                Log.log.info("JSON Values=> {}", jsonResponse);
+                out.println(jsonResponse);
+            }
+            
+            
+            
+            
+
+        } catch (NumberFormatException nfe) {
+            out.println("-1");
+            Log.log.error("Number Format Exception: {}", nfe);
+                
+        } catch (IndexOutOfBoundsException iobe) {
+            out.println("-1");
+            Log.log.error("Index out of bounds Exception: {}", iobe);
+                
+        } catch (Exception e) {
+            out.println("-1");
+            Log.log.error("Exception: {}", e);
+                
+        } finally {
+            out.close();
+        }
         
     }
 

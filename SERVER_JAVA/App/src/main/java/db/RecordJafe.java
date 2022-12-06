@@ -1,20 +1,21 @@
 package db;
 
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  *
  * @author mfran
  */
-public class Record {
+public class RecordJafe {
     
     private Date date;
     private Time time;
     private float value;
     private int idSensor;
+    private String idFeeder;
     
-    public Record() {
+    public RecordJafe() {
         
     }
 
@@ -34,6 +35,10 @@ public class Record {
         return idSensor;
     }
 
+    public String getIdFeeder() {
+        return idFeeder;
+    }
+
     public void setDate(Date date) {
         this.date = date;
     }
@@ -49,5 +54,11 @@ public class Record {
     public void setIdSensor(int idSensor) {
         this.idSensor = idSensor;
     }
+
+    public void setIdFeeder(String idFeeder) {
+        this.idFeeder = idFeeder;
+    }
+    
+    
     
 }

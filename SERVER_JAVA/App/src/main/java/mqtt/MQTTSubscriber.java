@@ -43,9 +43,9 @@ public class MQTTSubscriber implements MqttCallback{
             ResultSet rsFeeders = psFeeders.executeQuery();
             
             while (rsFeeders.next()) {
-                topics.add("Comedero" + rsFeeders.getInt("id_feeder") + "/#");
+                topics.add("Comedero" + rsFeeders.getString("id_feeder") + "/#");
             }
-            
+            Log.logmqtt.info("topics " + topics);
             subscribeTopic(broker, topics);
             
         } catch (NullPointerException npe) {
@@ -102,7 +102,10 @@ public class MQTTSubscriber implements MqttCallback{
             Log.logmqtt.info("Mensaje from feeder{}, sensor{}: {}", 
                             newTopic.getIdFeeder(), newTopic.getIdSensor(), message.toString());
             
-            Logic.storeNewMeasurement(newTopic);
+            if (newTopic.getIdSensor() == 1) {
+                Logic.storeNewMeasurement(newTopic);
+            }
+            
         }
         else if (topic.contains("Actuador")) {
             
