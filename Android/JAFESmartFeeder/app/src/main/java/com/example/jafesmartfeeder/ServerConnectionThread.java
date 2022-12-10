@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ServerConnectionThread {
+public class ServerConnectionThread extends Thread {
     private MainActivity mainActivity;
     private String tag = "ServerConnectionThread";
     private String urlStr = "";
@@ -23,35 +23,28 @@ public class ServerConnectionThread {
     public ServerConnectionThread(MainActivity activ, String url) {
         mainActivity = activ;
         urlStr = url;
-        //start();
-        run();
+        start();
+        //run();
     }
 
-    //@Override
-    public void run() {
+    @Override
+    public void run()    {
         String response = "";
         try {
             URL url = new URL(urlStr);
-            HttpURLConnection urlConnection = null;
-            urlConnection = (HttpURLConnection) url.openConnection();
-            //Obtener la información de la url
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            //Get the information from the url
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             response = convertStreamToString(in);
             Log.d(tag, "get json: " + response);
-            JSONArray jsonArray = new JSONArray(response);
+            mainActivity.setRespuestaServidor(response);
 
-            //Leer respuestas y mandar mensaje
-            if (urlStr.contains("")) {
-                mainActivity.prueba("conectado");
-            } else{
-                mainActivity.prueba("no conectado");
-            }
-        } catch (IOException | JSONException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    //Get the input strean and convert into String
+    //Get the input stream and convert into String
     private String convertStreamToString(InputStream is) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();

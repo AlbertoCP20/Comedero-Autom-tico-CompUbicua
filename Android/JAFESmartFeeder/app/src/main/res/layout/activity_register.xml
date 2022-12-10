@@ -20,9 +20,10 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/registerTittle"
                 android:layout_width="225dp"
                 android:layout_height="43dp"
+                android:contentDescription="@string/RegisterText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -173,7 +174,8 @@
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/SelectPetTypeHint"
                         android:minHeight="48dp"
-                        android:visibility="visible" />
+                        android:visibility="visible"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
 
                     <TextView
                         android:id="@+id/tittle_change_pet_weight2"
@@ -192,7 +194,7 @@
                         android:hint="@string/PetWeightHint"
                         android:inputType="numberDecimal"
                         android:minHeight="48dp"
-                        tools:ignore="TextContrastCheck" />
+                        tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
 
                     <TextView
                         android:id="@+id/tittle_change_id_feeder2"
@@ -210,7 +212,7 @@
                         android:hint="@string/IDFeederHint"
                         android:inputType="textPersonName"
                         android:minHeight="48dp"
-                        tools:ignore="TextContrastCheck" />
+                        tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
 
                     <Button
                         android:id="@+id/SaveButton"

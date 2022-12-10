@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ public class Register extends AppCompatActivity {
     private EditText petWeight;
     private EditText IDFeeder;
     private HashMap<String, String> base;
+    private Button saveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class Register extends AppCompatActivity {
         selectPetType = (Spinner) findViewById(R.id.SelectPetType);
         petWeight = (EditText) findViewById(R.id.PetWeight);
         IDFeeder = (EditText) findViewById(R.id.IDFeeder);
+        saveButton = (Button) findViewById(R.id.SaveButton);
 
         base = new HashMap<>();
         base.put("elena.pena.2000@gmail.com", "elena1204");
@@ -50,10 +53,17 @@ public class Register extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item_pet_type, petTypes);
         selectPetType.setAdapter(adapter);
 
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveNewUser();
+            }
+        });
+
     }
 
     //Para registrar un nuevo usuario
-    public void saveNewUser (View view) {
+    public void saveNewUser () {
         //Comprobaremos que efectivamente el usuario no está ya dado de alta en el sistema
         String introducedEmail = newEmail.getText().toString();
         String introducedPassword = newPassword.getText().toString();
