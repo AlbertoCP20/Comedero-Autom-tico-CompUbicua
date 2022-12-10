@@ -137,6 +137,14 @@ public class ConnectionDDBB {
         return getStatement(con, "SELECT * FROM USER WHERE ID_USER = ?;");
     }
     
+    public static PreparedStatement GetUserPassword(Connection con) {
+        return getStatement(con, "SELECT PASSWORD FROM USER WHERE EMAIL = ?;");
+    }
+    
+    public static PreparedStatement GetFeederByID(Connection con) {
+        return getStatement(con, "SELECT * FROM FEEDER WHERE ID_FEEDER = ?;");
+    }
+    
     public static PreparedStatement GetPetUser(Connection con) {
         return getStatement(con, "SELECT * FROM PET WHERE ID_PET = ?;");
     }

@@ -297,6 +297,144 @@ public class Logic {
         return users;
     }
     
+    public static int getUserValidation(String email, String password) {
+        ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        String passwordBD = "";
+        
+        try {
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+            PreparedStatement ps = ConnectionDDBB.GetUserPassword(con);
+            Log.log.info("Query=> {}", ps.toString());
+            
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                passwordBD = rs.getString("password");
+            }	
+            else {
+                return 0;
+            }
+                
+        } catch (SQLException sqle) {
+            Log.log.error("Error: {}", sqle);
+            passwordBD = "";
+                
+        } catch (NullPointerException npe) {
+            Log.log.error("Error: {}", npe);
+            passwordBD = "";
+                
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+            passwordBD = "";
+                
+        } finally {
+            conector.closeConnection(con);
+        }
+        
+        if (password.equals(passwordBD)) {
+            return 1;
+        }
+        else {
+            return 2;
+        }
+    }
+    
+    /*public static int getNewUserValidation(String email, String idFeeder) {
+        ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        String passwordBD = "";
+        
+        try {
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+            PreparedStatement ps1 = ConnectionDDBB.GetUserPassword(con);
+            Log.log.info("Query=> {}", ps1.toString());
+            PreparedStatement ps2 = ConnectionDDBB.GetFeederByID(con);
+            Log.log.info("Query=> {}", ps2.toString());
+            
+            ps1.setString(1, email);
+            ResultSet rs1 = ps1.executeQuery();
+            ps2.setString(1, idFeeder);
+            ResultSet rs2 = ps2.executeQuery();
+            
+            if (rs1.next()) {
+                if (rs2.next()) {
+                    return 0;
+                }
+            }	
+            else {
+                return 0;
+            }
+                
+        } catch (SQLException sqle) {
+            Log.log.error("Error: {}", sqle);
+            passwordBD = "";
+                
+        } catch (NullPointerException npe) {
+            Log.log.error("Error: {}", npe);
+            passwordBD = "";
+                
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+            passwordBD = "";
+                
+        } finally {
+            conector.closeConnection(con);
+        }
+        
+        if (password.equals(passwordBD)) {
+            return 1;
+        }
+        else {
+            return 2;
+        }
+    }*/
+    
+    public static String getUserPassword(String email) {
+        ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        String passwordBD = "";
+        
+        try {
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+            PreparedStatement ps = ConnectionDDBB.GetUserPassword(con);
+            Log.log.info("Query=> {}", ps.toString());
+            
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                passwordBD = rs.getString("password");
+            }	
+                
+        } catch (SQLException sqle) {
+            Log.log.error("Error: {}", sqle);
+            passwordBD = "0";
+                
+        } catch (NullPointerException npe) {
+            Log.log.error("Error: {}", npe);
+            passwordBD = "0";
+                
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+            passwordBD = "0";
+                
+        } finally {
+            conector.closeConnection(con);
+        }
+        
+        if (passwordBD.isEmpty()) {
+            return "0";
+        }
+        else {
+            return passwordBD;
+        }
+    }
+    
     public static ArrayList<Pet> getPetUserFromDB(String idUser) {
         
         ArrayList<Pet> pets = new ArrayList<>();

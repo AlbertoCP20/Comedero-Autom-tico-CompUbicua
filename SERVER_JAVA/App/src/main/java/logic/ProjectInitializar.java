@@ -21,7 +21,7 @@ public class ProjectInitializar implements ServletContextListener {
         suscriber.searchTopicsToSubscribe(broker);
 
         Log.log.info("-->Running time Thread<--");
-        new ThreadTimeFood();
+        //new ThreadTimeFood();
         
         Log.log.info("-->Arrancado<--");
     }

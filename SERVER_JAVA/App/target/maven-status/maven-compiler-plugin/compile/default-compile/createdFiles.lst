@@ -17,6 +17,7 @@ servlets\DeleteSchedule.class
 servlets\GetRecordsFeeder.class
 servlets\SetNewSchedule.class
 db\Schedule.class
+servlets\Login.class
 servlets\GetSchedulesUser.class
 servlets\DeleteUser.class
 db\Pet.class

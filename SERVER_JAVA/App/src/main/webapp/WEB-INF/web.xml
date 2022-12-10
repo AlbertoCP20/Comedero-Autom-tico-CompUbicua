@@ -64,6 +64,18 @@
         <servlet-name>GetUserInfo</servlet-name>
         <servlet-class>servlets.GetUserInfo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>servlets.Login</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PasswordReminder</servlet-name>
+        <servlet-class>servlets.PasswordReminder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ValidateNewUser</servlet-name>
+        <servlet-class>servlets.ValidateNewUser</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GetUsers</servlet-name>
         <url-pattern>/GetUsers</url-pattern>
@@ -127,6 +139,18 @@
     <servlet-mapping>
         <servlet-name>GetUserInfo</servlet-name>
         <url-pattern>/GetUserInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PasswordReminder</servlet-name>
+        <url-pattern>/PasswordReminder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ValidateNewUser</servlet-name>
+        <url-pattern>/ValidateNewUser</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

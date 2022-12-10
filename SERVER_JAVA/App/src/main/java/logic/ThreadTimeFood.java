@@ -21,7 +21,7 @@ public class ThreadTimeFood extends Thread {
     private int TICKS = 3;
     
     public ThreadTimeFood() {
-        
+        start();
     }
     
     @Override
@@ -50,7 +50,8 @@ public class ThreadTimeFood extends Thread {
                 System.out.println("diferencia " + dif);
                 
                 if (dif >= 0 && dif <= TIME && !feeders.containsKey(idFeeder)) {
-                    MQTTPublisher.publish(broker, "Comedero" + idFeeder + "/Actuador" + 1, String.valueOf(schedules.get(i).getWeight()));
+                    MQTTPublisher.publish(broker, "Comedero" + idFeeder + "/Racion", String.valueOf(schedules.get(i).getWeight()));
+                    MQTTPublisher.publish(broker, "Comedero" + idFeeder + "/Signals", String.valueOf("2"));
                     feeders.put(idFeeder, 0);
                 }
             }
@@ -68,7 +69,7 @@ public class ThreadTimeFood extends Thread {
             
             for (int i = 0; i < idDelete.size(); i++) {
                 feeders.remove(idDelete.get(i));
-                MQTTPublisher.publish(broker, "Comedero" + idDelete.get(i) + "/Sensor" + 1, String.valueOf(1));
+                MQTTPublisher.publish(broker, "Comedero" + idDelete.get(i) + "/Signals", String.valueOf(1));
             }
             System.out.println(feeders);
 

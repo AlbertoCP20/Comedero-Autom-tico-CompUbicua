@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void comprobarDatos() {
-        String servlet = "http://192.168.37.1:8080/App/";
+        String servlet = "http://localhost:8080/App/";
         String urlStr = servlet+"Login?email=" + email.getText().toString() + "&password=" +
                 password.getText().toString();
         ServerConnectionThread thread = new ServerConnectionThread(this, urlStr);
