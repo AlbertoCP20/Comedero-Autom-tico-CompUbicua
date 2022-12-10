@@ -1,6 +1,5 @@
 BBDD - Jafe
-
-- User *
+-- User *
 CREATE TABLE USER(id_user int, name varchar(40), first_surname varchar(40), sec_surname varchar(40), 
 birthday date, gender char, email varchar(40), password varchar(40), photo longblob, 
 primary key(id_user));
