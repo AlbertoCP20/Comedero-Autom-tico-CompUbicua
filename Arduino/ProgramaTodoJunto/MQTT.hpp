@@ -29,7 +29,7 @@ String getContent(){
 // Checks the topic from which the data is received. If topic == Comedero1/Racion then true
 bool isTopicRacion(){
   bool flag = false;
-  if(top.equals("Comedero1/Racion")){
+  if(top.equals("ComederoA30/Racion")){
     flag = true;
   }
   return flag;

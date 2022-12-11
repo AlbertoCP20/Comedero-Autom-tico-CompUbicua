@@ -1,6 +1,13 @@
+// LIBRARIES
+
+// Servomotor libraries
 #include <Servo.h>
+
+// Conexion libraries (WIFI / MQTT)
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
+
+// Weight sensor libraries 
 #include <HX711_ADC.h>
 #if defined(ESP8266)|| defined(ESP32) || defined(AVR)
 #include <EEPROM.h>
@@ -10,6 +17,7 @@
 #include "MQTT.hpp"//MQTT functions
 #include "ESP8266_Utils.hpp"//Wifi connection
 #include "ESP8266_Utils_MQTT.hpp"//MQTT Connection
+
 #include "PressureSensor.hpp" //PressureSensor functions
 
 Servo servo;
@@ -54,6 +62,7 @@ void loop() {
     maxFoodWeight = getContent().toFloat();
     setTopicDefault();
   }
+  
   // If server wants to get the values of the weight and the infraredSensor
   if(getContent() == "1"){
     // Time to reset the weight
@@ -64,15 +73,15 @@ void loop() {
     if(currentFoodWeight < 0){
       currentFoodWeight = 0;
     }
-    PublishMqtt("Comedero1/Sensor/PressureF",currentFoodWeight);
-    PublishMqtt("Comedero1/Sensor/Infrared",infraredSensor());
+    PublishMqtt("ComederoA30/Sensor/PressureF",currentFoodWeight);
+    PublishMqtt("ComederoA30/Sensor/Infrared",infraredSensor());
     // Reset signals
-    PublishMqtt("Comedero1/Signals",0);
+    PublishMqtt("ComederoA30/Signals",0);
   }
 
   // If server send signal to refill food and water bowls
   if(getContent() == "2"){
-    PublishMqtt("Comedero1/Signals",0);
+    PublishMqtt("ComederoA30/Signals",0);
     
     Serial.println("SE HA ACTIVADO LA SEÑAL!!");
 
