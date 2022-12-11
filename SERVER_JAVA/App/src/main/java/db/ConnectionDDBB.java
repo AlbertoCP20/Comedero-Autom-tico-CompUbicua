@@ -157,6 +157,14 @@ public class ConnectionDDBB {
         return getStatement(con, "SELECT * FROM RATION WHERE id_feeder = ?;");
     }
     
+    public static PreparedStatement InsertNewUser(Connection con) {
+        return getStatement(con, "INSERT INTO USER (ID_USER, NAME, FIRST_SURNAME, SEC_SURNAME, EMAIL, PASSWORD) VALUES (?, ?, ?, ?, ?, ?);");
+    }
+    
+    public static PreparedStatement InsertNewPet(Connection con) {
+        return getStatement(con, "INSERT INTO PET (ID_PET, NAME, GENDER, WEIGHTKG, TYPE, STATUS, ID_USER) VALUES (?, ?, ?, ?, ?, ?, ?);");
+    }
+    
     public static PreparedStatement InsertNewMeasurement(Connection con) {
         return getStatement(con, "INSERT INTO RECORD (ID_RECORD, DATER, TIMER, VALUE, ID_RATION, ID_SENSOR, ID_FEEDER) VALUES (?, ?, ?, ?, ?, ?, ?);");
     }
@@ -167,6 +175,18 @@ public class ConnectionDDBB {
     
     public static PreparedStatement DeleteSchedule(Connection con) {
         return getStatement(con, "DELETE FROM RATION WHERE ID_RATION = ? AND ID_FEEDER = ?;");
+    }
+    
+    public static PreparedStatement UpdateFeederUser(Connection con) {
+        return getStatement(con, "UPDATE FEEDER SET ID_USER = ? WHERE ID_FEEDER = ?;");
+    }
+    
+    public static PreparedStatement GetLastIdUserDB(Connection con) {
+        return getStatement(con, "SELECT ID_USER FROM USER ORDER BY ID_USER DESC LIMIT 1;");
+    }
+    
+    public static PreparedStatement GetLastIdPetDB(Connection con) {
+        return getStatement(con, "SELECT ID_PET FROM PET ORDER BY ID_PET DESC LIMIT 1;");
     }
     
 }

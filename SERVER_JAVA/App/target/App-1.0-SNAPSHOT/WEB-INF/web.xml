@@ -60,6 +60,14 @@
         <servlet-name>ValidateFeeder</servlet-name>
         <servlet-class>servlets.ValidateFeeder</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PostNewUser</servlet-name>
+        <servlet-class>servlets.PostNewUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PostNewPet</servlet-name>
+        <servlet-class>servlets.PostNewPet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GetUsers</servlet-name>
         <url-pattern>/GetUsers</url-pattern>
@@ -119,6 +127,14 @@
     <servlet-mapping>
         <servlet-name>ValidateFeeder</servlet-name>
         <url-pattern>/ValidateFeeder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostNewUser</servlet-name>
+        <url-pattern>/PostNewUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostNewPet</servlet-name>
+        <url-pattern>/PostNewPet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
