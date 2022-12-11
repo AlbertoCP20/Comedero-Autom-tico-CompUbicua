@@ -9,11 +9,11 @@
     <androidx.cardview.widget.CardView
         android:layout_width="414dp"
         android:layout_height="738dp"
-        app:cardBackgroundColor="#789DCA"
+        app:cardBackgroundColor="#2C2C2C"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -21,42 +21,17 @@
 
             <ImageView
                 android:id="@+id/UserPicture"
-                android:layout_width="74dp"
-                android:layout_height="77dp"
+                android:layout_width="87dp"
+                android:layout_height="95dp"
                 android:contentDescription="@string/user_image"
                 android:src="@drawable/icono_usuario"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.244"
+                app:layout_constraintHorizontal_bias="0.048"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.043" />
-
-            <TextView
-                android:id="@+id/tittle_welcome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_edit_profile"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.585"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.081"
-                tools:ignore="TextContrastCheck" />
-
-            <Button
-                android:id="@+id/SaveChangesButton"
-                android:layout_width="154dp"
-                android:layout_height="66dp"
-                android:text="@string/SaveButton"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.88" />
+                app:layout_constraintVertical_bias="0.024"
+                tools:ignore="ImageContrastCheck" />
 
             <TextView
                 android:id="@+id/tittle_edit_profile_info"
@@ -65,20 +40,36 @@
                 android:text="@string/edit_profile_info"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.116"
+                app:layout_constraintHorizontal_bias="0.064"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.172"
+                app:layout_constraintVertical_bias="0.182"
                 tools:ignore="TextContrastCheck" />
+
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/logout"
+                android:textStyle="bold"
+                app:icon="@drawable/cerrar_sesion_peq"
+                app:iconGravity="textEnd"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.932"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.023" />
 
             <ScrollView
                 android:id="@+id/scrollView3"
-                android:layout_width="356dp"
-                android:layout_height="422dp"
+                android:layout_width="391dp"
+                android:layout_height="493dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.65999997">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -90,7 +81,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/NameHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <EditText
@@ -108,7 +99,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/FirstSurnameHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <EditText
@@ -126,7 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/SecondSurnameHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <EditText
@@ -144,7 +135,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/EmailHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <EditText
@@ -162,7 +153,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/PasswordHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <EditText
@@ -180,7 +171,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/ConfirmNewPasswordHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <EditText
@@ -198,7 +189,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/SelectPetTypeHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <Spinner
@@ -215,7 +206,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/PetWeightHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <EditText
@@ -226,14 +217,14 @@
                         android:ems="10"
                         android:hint="@string/PetWeightHint"
                         android:inputType="numberDecimal"
-                        tools:ignore="DuplicateSpeakableTextCheck" />
+                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
 
                     <TextView
                         android:id="@+id/tittle_change_id_feeder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/IDFeederHint"
-                        android:textColor="#547398" />
+                        android:textColor="#EC8800" />
 
                     <EditText
                         android:id="@+id/change_id_feeder"
@@ -244,6 +235,15 @@
                         android:hint="@string/IDFeederHint"
                         android:inputType="textPersonName"
                         tools:ignore="DuplicateSpeakableTextCheck" />
+
+                    <Button
+                        android:id="@+id/SaveChangesButton"
+                        android:layout_width="154dp"
+                        android:layout_height="66dp"
+                        android:layout_gravity="center"
+                        android:text="@string/SaveButton"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
                 </LinearLayout>
             </ScrollView>
 

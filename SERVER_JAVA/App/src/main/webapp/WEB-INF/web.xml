@@ -5,10 +5,6 @@
         <servlet-class>servlets.GetUsers</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SetFeeder</servlet-name>
-        <servlet-class>servlets.SetFeeder</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>GetFeeders</servlet-name>
         <servlet-class>servlets.GetFeeders</servlet-class>
     </servlet>
@@ -17,16 +13,56 @@
         <servlet-class>servlets.GetSchedules</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SetSchedule</servlet-name>
-        <servlet-class>servlets.SetSchedule</servlet-class>
+        <servlet-name>GetSchedulesUser</servlet-name>
+        <servlet-class>servlets.GetSchedulesUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetRecords</servlet-name>
+        <servlet-class>servlets.GetRecords</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetRecordsFeeder</servlet-name>
+        <servlet-class>servlets.GetRecordsFeeder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteUser</servlet-name>
+        <servlet-class>servlets.DeleteUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteSchedule</servlet-name>
+        <servlet-class>servlets.DeleteSchedule</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeletePet</servlet-name>
+        <servlet-class>servlets.DeletePet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetPets</servlet-name>
+        <servlet-class>servlets.GetPets</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetPetUser</servlet-name>
+        <servlet-class>servlets.GetPetUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetUserInfo</servlet-name>
+        <servlet-class>servlets.GetUserInfo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>servlets.Login</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PasswordReminder</servlet-name>
+        <servlet-class>servlets.PasswordReminder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ValidateFeeder</servlet-name>
+        <servlet-class>servlets.ValidateFeeder</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>GetUsers</servlet-name>
         <url-pattern>/GetUsers</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SetFeeder</servlet-name>
-        <url-pattern>/SetFeeder</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GetFeeders</servlet-name>
@@ -37,8 +73,52 @@
         <url-pattern>/GetSchedules</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SetSchedule</servlet-name>
-        <url-pattern>/SetSchedule</url-pattern>
+        <servlet-name>GetSchedulesUser</servlet-name>
+        <url-pattern>/GetSchedulesUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetRecords</servlet-name>
+        <url-pattern>/GetRecords</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetRecordsFeeder</servlet-name>
+        <url-pattern>/GetRecordsFeeder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteUser</servlet-name>
+        <url-pattern>/DeleteUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteSchedule</servlet-name>
+        <url-pattern>/DeleteSchedule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeletePet</servlet-name>
+        <url-pattern>/DeletePet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetPets</servlet-name>
+        <url-pattern>/GetPets</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetPetUser</servlet-name>
+        <url-pattern>/GetPetUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetUserInfo</servlet-name>
+        <url-pattern>/GetUserInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PasswordReminder</servlet-name>
+        <url-pattern>/PasswordReminder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ValidateFeeder</servlet-name>
+        <url-pattern>/ValidateFeeder</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

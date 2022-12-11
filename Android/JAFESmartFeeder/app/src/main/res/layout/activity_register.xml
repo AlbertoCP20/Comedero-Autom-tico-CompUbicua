@@ -7,9 +7,9 @@
     tools:context=".Register">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="411dp"
-        android:layout_height="733dp"
-        app:cardBackgroundColor="#688DB9"
+        android:layout_width="417dp"
+        android:layout_height="737dp"
+        app:cardBackgroundColor="#2C2C2C"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,44 +19,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/RegisterTittle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/RegisterTittle"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="#FFFFFF"
-                android:textSize="34sp"
+            <ImageView
+                android:id="@+id/registerTittle"
+                android:layout_width="225dp"
+                android:layout_height="43dp"
+                android:contentDescription="@string/RegisterText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.071" />
-
-            <Button
-                android:id="@+id/SaveButton"
-                android:layout_width="156dp"
-                android:layout_height="64dp"
-                android:onClick="saveNewUser"
-                android:text="@string/SaveButton"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/scrollView2"
-                app:layout_constraintVertical_bias="0.504" />
+                app:layout_constraintVertical_bias="0.042"
+                app:srcCompat="@drawable/letras_registro" />
 
             <ScrollView
                 android:id="@+id/scrollView2"
-                android:layout_width="334dp"
-                android:layout_height="411dp"
+                android:layout_width="385dp"
+                android:layout_height="597dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.43">
+                app:layout_constraintVertical_bias="0.65999997">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -68,7 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/NameHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <EditText
@@ -87,7 +70,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/FirstSurnameHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <EditText
@@ -106,7 +89,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/SecondSurnameHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <EditText
@@ -125,7 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/EmailHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <EditText
@@ -144,7 +127,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/PasswordHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <EditText
@@ -163,7 +146,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/ConfirmNewPasswordHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <EditText
@@ -182,7 +165,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/SelectPetTypeHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <Spinner
@@ -191,14 +174,15 @@
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/SelectPetTypeHint"
                         android:minHeight="48dp"
-                        android:visibility="visible" />
+                        android:visibility="visible"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
 
                     <TextView
                         android:id="@+id/tittle_change_pet_weight2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/PetWeightHint"
-                        android:textColor="#547398"
+                        android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
                     <EditText
@@ -210,14 +194,14 @@
                         android:hint="@string/PetWeightHint"
                         android:inputType="numberDecimal"
                         android:minHeight="48dp"
-                        tools:ignore="TextContrastCheck" />
+                        tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
 
                     <TextView
                         android:id="@+id/tittle_change_id_feeder2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/IDFeederHint"
-                        android:textColor="#547398" />
+                        android:textColor="#EC8800" />
 
                     <EditText
                         android:id="@+id/IDFeeder"
@@ -228,7 +212,17 @@
                         android:hint="@string/IDFeederHint"
                         android:inputType="textPersonName"
                         android:minHeight="48dp"
-                        tools:ignore="TextContrastCheck" />
+                        tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
+
+                    <Button
+                        android:id="@+id/SaveButton"
+                        android:layout_width="156dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:onClick="saveNewUser"
+                        android:text="@string/SaveButton"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
             </ScrollView>

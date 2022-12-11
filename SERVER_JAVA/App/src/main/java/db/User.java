@@ -1,7 +1,5 @@
 package db;
 
-import java.util.Date;
-
 /**
  *
  * @author mfran
@@ -12,11 +10,8 @@ public class User {
     private String name;
     private String firstSurname;
     private String secondSurname;
-    private Date birthday;
-    private char gender;
     private String email;
     private String password;
-    private byte photo;
     
     public User() {
         
@@ -38,24 +33,12 @@ public class User {
         return secondSurname;
     }
     
-    public Date getBirthday() {
-        return birthday;
-    }
-    
-    public char getGender() {
-        return gender;
-    }
-    
     public String getEmail() {
         return email;
     }
     
     public String getPassword() {
         return password;
-    }
-    
-    public byte getPhoto() {
-        return photo;
     }
     
     public void setIdUser(int idUser) {
@@ -74,14 +57,6 @@ public class User {
         this.secondSurname = secondSurname;
     }
     
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-    
-    public void setGender(char gender) {
-        this.gender = gender;
-    }
-    
     public void setEmail(String email) {
         this.email = email;
     }
@@ -89,8 +64,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    public void setPhoto(byte photo) {
-        this.photo = photo;
-    }
+
 }

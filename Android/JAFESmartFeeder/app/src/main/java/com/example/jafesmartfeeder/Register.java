@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -24,8 +25,8 @@ public class Register extends AppCompatActivity {
     private Spinner selectPetType; //Necesitaria otro objeto donde almacenar el getSelectedItem para poder pasarselo a la base de datos
     private EditText petWeight;
     private EditText IDFeeder;
-    //private MainActivity main;
     private HashMap<String, String> base;
+    private Button saveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,19 +43,27 @@ public class Register extends AppCompatActivity {
         selectPetType = (Spinner) findViewById(R.id.SelectPetType);
         petWeight = (EditText) findViewById(R.id.PetWeight);
         IDFeeder = (EditText) findViewById(R.id.IDFeeder);
+        saveButton = (Button) findViewById(R.id.SaveButton);
 
-        //main = new MainActivity();
         base = new HashMap<>();
         base.put("elena.pena.2000@gmail.com", "elena1204");
 
+        //Llamamos a los datos del spinner auxiliar que hemos creado
         String [] petTypes = {"PERRO", "GATO"};
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item_pet_type, petTypes);
         selectPetType.setAdapter(adapter);
 
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveNewUser();
+            }
+        });
+
     }
 
-    public void saveNewUser (View view) {
+    //Para registrar un nuevo usuario
+    public void saveNewUser () {
         //Comprobaremos que efectivamente el usuario no está ya dado de alta en el sistema
         String introducedEmail = newEmail.getText().toString();
         String introducedPassword = newPassword.getText().toString();
@@ -73,7 +82,6 @@ public class Register extends AppCompatActivity {
             if (base.containsKey(introducedEmail)) {
                 Toast.makeText(this, "Usuario existente.", Toast.LENGTH_SHORT).show();
             } else {
-                //Comprobar que contenga el @, pero bueno de momento es una prueba
                 if (introducedEmail.contains("@")){
                     if (introducedPassword.equals(confirmIntroducedPassword)) {
                         //Habrá que comprobar también que el id del comedero coincide con el existente y claro introducir en la base de datos el resto de información jajajaja
@@ -81,6 +89,7 @@ public class Register extends AppCompatActivity {
                         Toast.makeText(this, "Usuario dado de alta con éxito.", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(this, MainActivity.class);
                         startActivity(i);
+                        finish();
                     } else {
                         Toast.makeText(this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show();
                     }

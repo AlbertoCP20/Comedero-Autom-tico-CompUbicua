@@ -117,16 +117,56 @@ public class ConnectionDDBB {
         return getStatement(con, "SELECT * FROM USER;");
     }
     
-    public static PreparedStatement GetFeeders(Connection con) {
-        return getStatement(con, "SELECT * FROM FEEDER");
+    public static PreparedStatement GetPets(Connection con) {
+        return getStatement(con, "SELECT * FROM PET;");
     }
     
-    public static PreparedStatement GetSchedule(Connection con) {
-        return getStatement(con, "SELECT * FROM SCHEDULE");
+    public static PreparedStatement GetFeeders(Connection con) {
+        return getStatement(con, "SELECT * FROM FEEDER;");
+    }
+    
+    public static PreparedStatement GetSchedules(Connection con) {
+        return getStatement(con, "SELECT * FROM RATION;");
+    }
+    
+    public static PreparedStatement GetRecords(Connection con) {
+        return getStatement(con, "SELECT * FROM RECORD;");
+    }
+    
+    public static PreparedStatement GetUserID(Connection con) {
+        return getStatement(con, "SELECT * FROM USER WHERE ID_USER = ?;");
+    }
+    
+    public static PreparedStatement GetUserPassword(Connection con) {
+        return getStatement(con, "SELECT ID_USER, PASSWORD FROM USER WHERE EMAIL = ?;");
+    }
+    
+    public static PreparedStatement GetFeederByID(Connection con) {
+        return getStatement(con, "SELECT * FROM FEEDER WHERE ID_FEEDER = ?;");
+    }
+    
+    public static PreparedStatement GetPetUser(Connection con) {
+        return getStatement(con, "SELECT * FROM PET WHERE ID_USER = ?;");
+    }
+    
+    public static PreparedStatement GetRecordsFeeder(Connection con) {
+        return getStatement(con, "SELECT * FROM RECORD WHERE ID_FEEDER = ?;");
+    }
+    
+    public static PreparedStatement GetScheduleUser(Connection con) {
+        return getStatement(con, "SELECT * FROM RATION WHERE id_feeder = ?;");
     }
     
     public static PreparedStatement InsertNewMeasurement(Connection con) {
-        return getStatement(con, "INSERT INTO RECORD (FECHA, HORA, VALUE, ID_SENSOR_MACHINE, ID_FEEDER_MACHINE) VALUES (?, ?, ?, ?, ?)");
+        return getStatement(con, "INSERT INTO RECORD (ID_RECORD, DATER, TIMER, VALUE, ID_RATION, ID_SENSOR, ID_FEEDER) VALUES (?, ?, ?, ?, ?, ?, ?);");
+    }
+    
+    public static PreparedStatement DeletePet(Connection con) {
+        return getStatement(con, "DELETE FROM PET WHERE ID_PET = ?;");
+    }
+    
+    public static PreparedStatement DeleteSchedule(Connection con) {
+        return getStatement(con, "DELETE FROM RATION WHERE ID_RATION = ? AND ID_FEEDER = ?;");
     }
     
 }
