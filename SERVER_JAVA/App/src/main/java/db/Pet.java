@@ -1,7 +1,5 @@
 package db;
 
-import java.util.Date;
-
 /**
  *
  * @author mfran
@@ -10,11 +8,10 @@ public class Pet {
     
     private int id;
     private String name;
-    private Date birthday;
     private char gender;
-    private String breed;
     private float weight;
-    private byte photo;
+    private String type;
+    private boolean status;
     private int idOwner;
     
     public Pet() {
@@ -28,17 +25,9 @@ public class Pet {
     public String getName() {
         return name;
     }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
+    
     public char getGender() {
         return gender;
-    }
-
-    public String getBreed() {
-        return breed;
     }
 
     public int getIdOwner() {
@@ -49,8 +38,12 @@ public class Pet {
         return weight;
     }
 
-    public byte getPhoto() {
-        return photo;
+    public String getType() {
+        return type;
+    }
+
+    public boolean isStatus() {
+        return status;
     }
 
     public void setId(int id) {
@@ -61,18 +54,10 @@ public class Pet {
         this.name = name;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
     public void setGender(char gender) {
         this.gender = gender;
     }
-
-    public void setBreed(String breed) {
-        this.breed = breed;
-    }
-
+    
     public void setIdOwner(int idOwner) {
         this.idOwner = idOwner;
     }
@@ -81,8 +66,12 @@ public class Pet {
         this.weight = weight;
     }
 
-    public void setPhoto(byte photo) {
-        this.photo = photo;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
     
 }

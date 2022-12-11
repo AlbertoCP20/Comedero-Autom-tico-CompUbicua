@@ -1,11 +1,12 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package servlets;
 
 import com.google.gson.Gson;
-import db.Feeder;
-import db.RecordJafe;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import logic.Logic;
  *
  * @author mfran
  */
-public class SetFeeder extends HttpServlet {
+public class ValidateFeeder extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,38 +30,18 @@ public class SetFeeder extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        Log.log.info("-- Register new feeder " + request.getParameter("idFeeder")+" --");
+        Log.log.info("-- Get validation feeder " + request.getParameter("idFeeder") + " information from Database --");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
         try {
-            ArrayList<Feeder> feederList = Logic.getFeedersFromDB();
-            ArrayList<String> idFeeders = new ArrayList<String>();
+            String idFeeder = request.getParameter("idFeeder");
             
-            for (int i = 0; i < feederList.size(); i++) {
-                idFeeders.add(feederList.get(i).getIdFeeder());
-            }
+            int value = Logic.getFeederValidation(idFeeder);
             
-            if (idFeeders.contains(request.getParameter("idFeeder"))) {
-                String jsonResponse = new Gson().toJson(-1);
-                Log.log.info("JSON Values=> {}", jsonResponse);
-                out.println(jsonResponse);
-            }
-            else {
-                Feeder newFeeder = new Feeder();
-                newFeeder.setIdFeeder(request.getParameter("idFeeder"));
-                newFeeder.setIdUser(Integer.parseInt(request.getParameter("idUser")));
-                Logic.registerNewFeeder(newFeeder);
-                
-                String jsonResponse = new Gson().toJson(0);
-                Log.log.info("JSON Values=> {}", jsonResponse);
-                out.println(jsonResponse);
-            }
-            
-            
-            
-            
+            String jsonResponse = new Gson().toJson(value);
+            Log.log.info("JSON Value=> {}", jsonResponse);
+            out.println(jsonResponse);
 
         } catch (NumberFormatException nfe) {
             out.println("-1");
@@ -77,7 +58,6 @@ public class SetFeeder extends HttpServlet {
         } finally {
             out.close();
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

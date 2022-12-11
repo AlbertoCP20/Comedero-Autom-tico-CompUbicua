@@ -126,7 +126,7 @@ public class ConnectionDDBB {
     }
     
     public static PreparedStatement GetSchedules(Connection con) {
-        return getStatement(con, "SELECT * FROM SCHEDULE;");
+        return getStatement(con, "SELECT * FROM RATION;");
     }
     
     public static PreparedStatement GetRecords(Connection con) {
@@ -138,7 +138,7 @@ public class ConnectionDDBB {
     }
     
     public static PreparedStatement GetUserPassword(Connection con) {
-        return getStatement(con, "SELECT PASSWORD FROM USER WHERE EMAIL = ?;");
+        return getStatement(con, "SELECT ID_USER, PASSWORD FROM USER WHERE EMAIL = ?;");
     }
     
     public static PreparedStatement GetFeederByID(Connection con) {
@@ -146,23 +146,19 @@ public class ConnectionDDBB {
     }
     
     public static PreparedStatement GetPetUser(Connection con) {
-        return getStatement(con, "SELECT * FROM PET WHERE ID_PET = ?;");
+        return getStatement(con, "SELECT * FROM PET WHERE ID_USER = ?;");
     }
     
     public static PreparedStatement GetRecordsFeeder(Connection con) {
-        return getStatement(con, "SELECT * FROM RECORD WHERE id_feeder_machine = ?;");
+        return getStatement(con, "SELECT * FROM RECORD WHERE ID_FEEDER = ?;");
     }
     
     public static PreparedStatement GetScheduleUser(Connection con) {
-        return getStatement(con, "SELECT * FROM SCHEDULE WHERE id_feeder = ?;");
+        return getStatement(con, "SELECT * FROM RATION WHERE id_feeder = ?;");
     }
     
     public static PreparedStatement InsertNewMeasurement(Connection con) {
-        return getStatement(con, "INSERT INTO RECORD (FECHA, HORA, VALUE, ID_SENSOR_MACHINE, ID_FEEDER_MACHINE) VALUES (?, ?, ?, ?, ?);");
-    }
-    
-    public static PreparedStatement InsertNewFeeder(Connection con) {
-        return getStatement(con, "INSERT INTO FEEDER (ID_FEEDER, ID_USER_LANDLORD) VALUES (?, ?);");
+        return getStatement(con, "INSERT INTO RECORD (ID_RECORD, DATER, TIMER, VALUE, ID_RATION, ID_SENSOR, ID_FEEDER) VALUES (?, ?, ?, ?, ?, ?, ?);");
     }
     
     public static PreparedStatement DeletePet(Connection con) {
@@ -170,7 +166,7 @@ public class ConnectionDDBB {
     }
     
     public static PreparedStatement DeleteSchedule(Connection con) {
-        return getStatement(con, "DELETE FROM SCHEDULE WHERE ID_SCHEDULE = ? AND ID_FEEDER = ?;");
+        return getStatement(con, "DELETE FROM RATION WHERE ID_RATION = ? AND ID_FEEDER = ?;");
     }
     
 }

@@ -6,19 +6,19 @@ import java.sql.Time;
  *
  * @author mfran
  */
-public class Schedule {
+public class Ration {
     
-    private int idSchedule;
+    private int idRation;
     private Time foodTime;
     private float weight;
     private String idFeeder;
     
-    public Schedule() {
+    public Ration() {
         
     }
 
-    public int getIdSchedule() {
-        return idSchedule;
+    public int getIdRation() {
+        return idRation;
     }
 
     public Time getFoodTime() {
@@ -33,8 +33,8 @@ public class Schedule {
         return weight;
     }
 
-    public void setIdSchedule(int idSchedule) {
-        this.idSchedule = idSchedule;
+    public void setIdRation(int idSchedule) {
+        this.idRation = idSchedule;
     }
 
     public void setFoodTime(Time foodTime) {

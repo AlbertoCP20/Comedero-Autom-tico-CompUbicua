@@ -5,24 +5,12 @@
         <servlet-class>servlets.GetUsers</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SetFeeder</servlet-name>
-        <servlet-class>servlets.SetFeeder</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>GetFeeders</servlet-name>
         <servlet-class>servlets.GetFeeders</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>GetSchedules</servlet-name>
         <servlet-class>servlets.GetSchedules</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SetSchedule</servlet-name>
-        <servlet-class>servlets.SetSchedule</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SetNewSchedule</servlet-name>
-        <servlet-class>servlets.SetNewSchedule</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>GetSchedulesUser</servlet-name>
@@ -35,10 +23,6 @@
     <servlet>
         <servlet-name>GetRecordsFeeder</servlet-name>
         <servlet-class>servlets.GetRecordsFeeder</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DeleteFeeder</servlet-name>
-        <servlet-class>servlets.DeleteFeeder</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteUser</servlet-name>
@@ -73,16 +57,12 @@
         <servlet-class>servlets.PasswordReminder</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ValidateNewUser</servlet-name>
-        <servlet-class>servlets.ValidateNewUser</servlet-class>
+        <servlet-name>ValidateFeeder</servlet-name>
+        <servlet-class>servlets.ValidateFeeder</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>GetUsers</servlet-name>
         <url-pattern>/GetUsers</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SetFeeder</servlet-name>
-        <url-pattern>/SetFeeder</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GetFeeders</servlet-name>
@@ -91,14 +71,6 @@
     <servlet-mapping>
         <servlet-name>GetSchedules</servlet-name>
         <url-pattern>/GetSchedules</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SetSchedule</servlet-name>
-        <url-pattern>/SetSchedule</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SetNewSchedule</servlet-name>
-        <url-pattern>/SetNewSchedule</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GetSchedulesUser</servlet-name>
@@ -111,10 +83,6 @@
     <servlet-mapping>
         <servlet-name>GetRecordsFeeder</servlet-name>
         <url-pattern>/GetRecordsFeeder</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DeleteFeeder</servlet-name>
-        <url-pattern>/DeleteFeeder</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DeleteUser</servlet-name>
@@ -149,8 +117,8 @@
         <url-pattern>/PasswordReminder</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ValidateNewUser</servlet-name>
-        <url-pattern>/ValidateNewUser</url-pattern>
+        <servlet-name>ValidateFeeder</servlet-name>
+        <url-pattern>/ValidateFeeder</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -1,7 +1,7 @@
 package servlets;
 
 import com.google.gson.Gson;
-import db.Schedule;
+import db.Ration;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class GetSchedules extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         try {
-            ArrayList<Schedule> values = Logic.getSchedulesFromDB();
+            ArrayList<Ration> values = Logic.getSchedulesFromDB();
             
             String jsonSchedules = new Gson().toJson(values);
             Log.log.info("JSON Values=> {}", jsonSchedules);

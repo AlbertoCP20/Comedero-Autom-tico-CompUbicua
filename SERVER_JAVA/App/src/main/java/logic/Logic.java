@@ -17,7 +17,7 @@ import db.ConnectionDDBB;
 import db.Feeder;
 import db.Pet;
 import db.RecordJafe;
-import db.Schedule;
+import db.Ration;
 import db.Topic;
 import db.User;
 
@@ -47,11 +47,8 @@ public class Logic {
                 user.setName(rs.getString("name"));
                 user.setFirstSurname(rs.getString("first_surname"));
                 user.setSecondSurname(rs.getString("sec_surname"));
-                user.setBirthday(rs.getDate("birthday"));
-                user.setGender(rs.getString("gender").charAt(0));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
-                user.setPhoto(rs.getByte("photo"));
                 
                 users.add(user);
             }	
@@ -92,12 +89,11 @@ public class Logic {
                 Pet pet = new Pet();
                 pet.setId(rs.getInt("id_pet"));
                 pet.setName(rs.getString("name"));
-                pet.setBirthday(rs.getDate("birthday"));
                 pet.setGender(rs.getString("gender").charAt(0));
-                pet.setBreed(rs.getString("breed"));
-                pet.setWeight(rs.getFloat("weight"));
-                pet.setPhoto(rs.getByte("photo"));
-                pet.setIdOwner(rs.getInt("id_user_owner"));
+                pet.setWeight(rs.getFloat("weightKg"));
+                pet.setType(rs.getString("type"));
+                pet.setStatus(rs.getBoolean("status"));
+                pet.setIdOwner(rs.getInt("id_user"));
                 
                 pets.add(pet);
             }	
@@ -138,7 +134,9 @@ public class Logic {
             while (rs.next()) {
                 Feeder feeder = new Feeder();
                 feeder.setIdFeeder(rs.getString("id_feeder"));
-                feeder.setIdUser(rs.getInt("id_user_landlord"));
+                feeder.setFood(rs.getFloat("percentage_food"));
+                feeder.setWater(rs.getFloat("percentage_water"));
+                feeder.setIdUser(rs.getInt("id_user"));
                 
                 feeders.add(feeder);
             }	
@@ -177,11 +175,13 @@ public class Logic {
             
             while (rs.next()) {
                 RecordJafe recordJafe = new RecordJafe();
-                recordJafe.setDate(rs.getDate("fecha"));
-                recordJafe.setTime(rs.getTime("hora"));
+                recordJafe.setIdRecord(rs.getInt("id_record"));
+                recordJafe.setDate(rs.getDate("dateR"));
+                recordJafe.setTime(rs.getTime("timeR"));
                 recordJafe.setValue(rs.getFloat("value"));
-                recordJafe.setIdSensor(rs.getInt("id_sensor_machine"));
-                recordJafe.setIdFeeder(rs.getString("id_feeder_machine"));
+                recordJafe.setIdRation(rs.getInt("id_ration"));
+                recordJafe.setIdSensor(rs.getInt("id_sensor"));
+                recordJafe.setIdFeeder(rs.getString("id_feeder"));
                 
                 records.add(recordJafe);
             }
@@ -205,9 +205,9 @@ public class Logic {
         return records;
     }
     
-    public static ArrayList<Schedule> getSchedulesFromDB() {
+    public static ArrayList<Ration> getSchedulesFromDB() {
         
-        ArrayList<Schedule> schedules = new ArrayList<>();
+        ArrayList<Ration> schedules = new ArrayList<>();
 
         ConnectionDDBB conector = new ConnectionDDBB();
         Connection con = null;
@@ -220,10 +220,10 @@ public class Logic {
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
-                Schedule schedule = new Schedule();
-                schedule.setIdSchedule(rs.getInt("id_schedule"));
-                schedule.setFoodTime(rs.getTime("food_time"));
-                schedule.setWeight(rs.getFloat("weight"));
+                Ration schedule = new Ration();
+                schedule.setIdRation(rs.getInt("id_ration"));
+                schedule.setFoodTime(rs.getTime("timeP"));
+                schedule.setWeight(rs.getFloat("weightG"));
                 schedule.setIdFeeder(rs.getString("id_feeder"));
                 
                 schedules.add(schedule);
@@ -269,11 +269,8 @@ public class Logic {
                 user.setName(rs.getString("name"));
                 user.setFirstSurname(rs.getString("first_surname"));
                 user.setSecondSurname(rs.getString("sec_surname"));
-                user.setBirthday(rs.getDate("birthday"));
-                user.setGender(rs.getString("gender").charAt(0));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
-                user.setPhoto(rs.getByte("photo"));
                 
                 users.add(user);
             }	
@@ -301,6 +298,7 @@ public class Logic {
         ConnectionDDBB conector = new ConnectionDDBB();
         Connection con = null;
         String passwordBD = "";
+        int idUser = -3;
         
         try {
             con = conector.obtainConnection(true);
@@ -313,6 +311,7 @@ public class Logic {
             
             if (rs.next()) {
                 passwordBD = rs.getString("password");
+                idUser = rs.getInt("id_user");
             }	
             else {
                 return 0;
@@ -335,35 +334,29 @@ public class Logic {
         }
         
         if (password.equals(passwordBD)) {
-            return 1;
+            return idUser;
         }
         else {
-            return 2;
+            return -2;
         }
     }
     
-    /*public static int getNewUserValidation(String email, String idFeeder) {
+    public static int getFeederValidation(String idFeeder) {
         ConnectionDDBB conector = new ConnectionDDBB();
         Connection con = null;
-        String passwordBD = "";
+        int idUser = 0;
         
         try {
             con = conector.obtainConnection(true);
             Log.log.debug("Database Connected");
-            PreparedStatement ps1 = ConnectionDDBB.GetUserPassword(con);
-            Log.log.info("Query=> {}", ps1.toString());
-            PreparedStatement ps2 = ConnectionDDBB.GetFeederByID(con);
-            Log.log.info("Query=> {}", ps2.toString());
+            PreparedStatement ps = ConnectionDDBB.GetFeederByID(con);
+            Log.log.info("Query=> {}", ps.toString());
             
-            ps1.setString(1, email);
-            ResultSet rs1 = ps1.executeQuery();
-            ps2.setString(1, idFeeder);
-            ResultSet rs2 = ps2.executeQuery();
+            ps.setString(1, idFeeder);
+            ResultSet rs = ps.executeQuery();
             
-            if (rs1.next()) {
-                if (rs2.next()) {
-                    return 0;
-                }
+            if (rs.next()) {
+                idUser = rs.getInt("id_user");
             }	
             else {
                 return 0;
@@ -371,27 +364,24 @@ public class Logic {
                 
         } catch (SQLException sqle) {
             Log.log.error("Error: {}", sqle);
-            passwordBD = "";
                 
         } catch (NullPointerException npe) {
             Log.log.error("Error: {}", npe);
-            passwordBD = "";
                 
         } catch (Exception e) {
             Log.log.error("Error:{}", e);
-            passwordBD = "";
                 
         } finally {
             conector.closeConnection(con);
         }
         
-        if (password.equals(passwordBD)) {
+        if (idUser == 0) {
             return 1;
         }
         else {
-            return 2;
+            return -2;
         }
-    }*/
+    }
     
     public static String getUserPassword(String email) {
         ConnectionDDBB conector = new ConnectionDDBB();
@@ -455,12 +445,11 @@ public class Logic {
                 Pet pet = new Pet();
                 pet.setId(rs.getInt("id_pet"));
                 pet.setName(rs.getString("name"));
-                pet.setBirthday(rs.getDate("birthday"));
                 pet.setGender(rs.getString("gender").charAt(0));
-                pet.setBreed(rs.getString("breed"));
-                pet.setWeight(rs.getFloat("weight"));
-                pet.setPhoto(rs.getByte("photo"));
-                pet.setIdOwner(rs.getInt("id_user_owner"));
+                pet.setWeight(rs.getFloat("weightKg"));
+                pet.setType(rs.getString("type"));
+                pet.setStatus(rs.getBoolean("status"));
+                pet.setIdOwner(rs.getInt("id_user"));
                 
                 pets.add(pet);
             }	
@@ -484,9 +473,9 @@ public class Logic {
         return pets;
     }
     
-    public static ArrayList<Schedule> getSchedulesUserFromDB(String idFeeder) {
+    public static ArrayList<Ration> getSchedulesUserFromDB(String idFeeder) {
         
-        ArrayList<Schedule> schedules = new ArrayList<>();
+        ArrayList<Ration> schedules = new ArrayList<>();
 
         ConnectionDDBB conector = new ConnectionDDBB();
         Connection con = null;
@@ -501,10 +490,10 @@ public class Logic {
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
-                Schedule schedule = new Schedule();
-                schedule.setIdSchedule(rs.getInt("id_schedule"));
-                schedule.setFoodTime(rs.getTime("food_time"));
-                schedule.setWeight(rs.getFloat("weight"));
+                Ration schedule = new Ration();
+                schedule.setIdRation(rs.getInt("id_ration"));
+                schedule.setFoodTime(rs.getTime("timeP"));
+                schedule.setWeight(rs.getFloat("weightG"));
                 schedule.setIdFeeder(rs.getString("id_feeder"));
                 
                 schedules.add(schedule);
@@ -548,11 +537,13 @@ public class Logic {
             
             while (rs.next()) {
                 RecordJafe recordJafe = new RecordJafe();
-                recordJafe.setDate(rs.getDate("fecha"));
-                recordJafe.setTime(rs.getTime("hora"));
+                recordJafe.setIdRecord(rs.getInt("id_record"));
+                recordJafe.setDate(rs.getDate("dateR"));
+                recordJafe.setTime(rs.getTime("timeR"));
                 recordJafe.setValue(rs.getFloat("value"));
-                recordJafe.setIdSensor(rs.getInt("id_sensor_machine"));
-                recordJafe.setIdFeeder(rs.getString("id_feeder_machine"));
+                recordJafe.setIdRation(rs.getInt("id_ration"));
+                recordJafe.setIdSensor(rs.getInt("id_sensor"));
+                recordJafe.setIdFeeder(rs.getString("id_feeder"));
                 
                 records.add(recordJafe);
             }	
@@ -603,38 +594,6 @@ public class Logic {
         } finally {
             conector.closeConnection(con);
         }
-    }
-    
-    public static void registerNewFeeder(Feeder newFeeder) {
-        ConnectionDDBB conector = new ConnectionDDBB();
-        Connection con = null;
-        
-        try
-	{
-            con = conector.obtainConnection(true);
-            Log.log.debug("Database Connected");
-            
-            PreparedStatement ps = ConnectionDDBB.InsertNewFeeder(con);
-            
-            ps.setString(1, newFeeder.getIdFeeder());
-            ps.setInt(2, newFeeder.getIdUser());
-
-            Log.log.info("Query=> {}", ps.toString());
-            ps.executeUpdate();            
-            
-	} catch (SQLException e)
-	{
-            Log.log.error("Error: {}", e);
-	} catch (NullPointerException e)
-	{
-            Log.log.error("Error: {}", e);
-	} catch (Exception e)
-	{
-            Log.log.error("Error:{}", e);
-        } finally
-        {
-            conector.closeConnection(con);
-	}
     }
     
     public static void deleteScheduleFromDB(String idSchedule, String idFeeder) {

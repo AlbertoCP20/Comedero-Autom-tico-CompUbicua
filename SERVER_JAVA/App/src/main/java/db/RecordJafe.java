@@ -9,9 +9,11 @@ import java.sql.Date;
  */
 public class RecordJafe {
     
+    private int idRecord;
     private Date date;
     private Time time;
     private float value;
+    private int idRation;
     private int idSensor;
     private String idFeeder;
     
@@ -39,6 +41,14 @@ public class RecordJafe {
         return idFeeder;
     }
 
+    public int getIdRecord() {
+        return idRecord;
+    }
+
+    public int getIdRation() {
+        return idRation;
+    }
+
     public void setDate(Date date) {
         this.date = date;
     }
@@ -58,7 +68,13 @@ public class RecordJafe {
     public void setIdFeeder(String idFeeder) {
         this.idFeeder = idFeeder;
     }
-    
-    
+
+    public void setIdRecord(int idRecord) {
+        this.idRecord = idRecord;
+    }
+
+    public void setIdRation(int idRation) {
+        this.idRation = idRation;
+    }
     
 }

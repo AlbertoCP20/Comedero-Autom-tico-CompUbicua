@@ -1,7 +1,7 @@
 package logic;
 
 import com.google.gson.Gson;
-import db.Schedule;
+import db.Ration;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class ThreadTimeFood extends Thread {
         
         while (true) {
             Log.log.info("--Search Schedule--");
-            ArrayList<Schedule> schedules = Logic.getSchedulesFromDB();
+            ArrayList<Ration> schedules = Logic.getSchedulesFromDB();
             String jsonSchedules = new Gson().toJson(schedules);
             Log.log.info("JSON Values=> {}", jsonSchedules);
             
