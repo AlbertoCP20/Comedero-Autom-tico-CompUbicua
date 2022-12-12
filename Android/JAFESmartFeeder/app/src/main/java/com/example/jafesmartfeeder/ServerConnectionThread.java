@@ -1,6 +1,7 @@
 package com.example.jafesmartfeeder;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.jafesmartfeeder.MainActivity;
 
@@ -18,7 +19,7 @@ import java.net.URL;
 public class ServerConnectionThread extends Thread {
     private MainActivity mainActivity;
     private String tag = "ServerConnectionThread";
-    private String urlStr = "";
+    private String urlStr;
 
     public ServerConnectionThread(MainActivity activ, String url) {
         mainActivity = activ;
@@ -29,9 +30,10 @@ public class ServerConnectionThread extends Thread {
 
     @Override
     public void run()    {
-        String response = "";
+        String response;
         try {
             URL url = new URL(urlStr);
+            System.out.println(url);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             //Get the information from the url
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
@@ -42,6 +44,10 @@ public class ServerConnectionThread extends Thread {
         }
         catch (IOException e) {
             e.printStackTrace();
+            response = "No";
+            Log.d(tag, "get json: " + response);
+            mainActivity.setRespuestaServidor(response);
+
         }
     }
     //Get the input stream and convert into String
