@@ -14,7 +14,7 @@ import logic.Logic;
  *
  * @author mfran
  */
-public class DeleteUser extends HttpServlet {
+public class GetStatusPet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -27,19 +27,18 @@ public class DeleteUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        Log.log.info("-- Delete user " + request.getParameter("idUser")+ " from DB --");
+        Log.log.info("-- Get Status pet user " + request.getParameter("idUser") + " information from Database --");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
         try {
             String idUser = request.getParameter("idUser");
             
-            Logic.deleteUserFromDB(idUser);
+            int value = Logic.getStatusPetUser(idUser);
             
-            String json = new Gson().toJson(1);
-            Log.log.info("User " + idUser + " has been deleted");
-            Log.log.info("JSON value => {}", json);
-            out.println(json);
+            String jsonResponse = new Gson().toJson(value);
+            Log.log.info("JSON Value=> {}", jsonResponse);
+            out.println(jsonResponse);
 
         } catch (NumberFormatException nfe) {
             out.println("-1");
@@ -56,7 +55,6 @@ public class DeleteUser extends HttpServlet {
         } finally {
             out.close();
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

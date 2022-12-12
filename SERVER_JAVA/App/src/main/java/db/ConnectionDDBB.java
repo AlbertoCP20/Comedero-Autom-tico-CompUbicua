@@ -149,16 +149,43 @@ public class ConnectionDDBB {
         return getStatement(con, "SELECT * FROM PET WHERE ID_USER = ?;");
     }
     
+    public static PreparedStatement GetUserFeeder(Connection con) {
+        return getStatement(con, "SELECT * FROM FEEDER WHERE ID_USER = ?;");
+    }
+    
     public static PreparedStatement GetRecordsFeeder(Connection con) {
         return getStatement(con, "SELECT * FROM RECORD WHERE ID_FEEDER = ?;");
+    }
+    
+    public static PreparedStatement GetRecordsPortion(Connection con) {
+        return getStatement(con, "SELECT ID_RECORD, DATER, TIMER, VALUE, ID_RATION, ID_SENSOR, RECORD.ID_FEEDER FROM RECORD INNER JOIN FEEDER\n" +
+            "ON RECORD.ID_FEEDER = FEEDER.ID_FEEDER INNER JOIN USER ON FEEDER.ID_USER = USER.ID_USER\n" +
+            "WHERE USER.ID_USER = ? AND RECORD.ID_RATION = ? AND RECORD.DATER = ? AND RECORD.ID_SENSOR = ?;");
+    }
+    
+    public static PreparedStatement GetStatusPetByUser(Connection con) {
+        return getStatement(con, "SELECT STATUS FROM PET INNER JOIN USER ON PET.ID_USER = USER.ID_USER WHERE USER.ID_USER = ?;");
+    }
+    
+    public static PreparedStatement GetPercentageFood(Connection con) {
+        return getStatement(con, "SELECT PERCENTAGE_FOOD FROM FEEDER INNER JOIN USER ON FEEDER.ID_USER = USER.ID_USER WHERE USER.ID_USER = ?;");
     }
     
     public static PreparedStatement GetScheduleUser(Connection con) {
         return getStatement(con, "SELECT * FROM RATION WHERE id_feeder = ?;");
     }
     
+    public static PreparedStatement GetRationsByIdUser(Connection con) {
+        return getStatement(con, "SELECT ID_RATION, TIMEP, WEIGHTG, RATION.ID_FEEDER FROM RATION INNER JOIN FEEDER "
+            + "ON RATION.ID_FEEDER = FEEDER.ID_FEEDER INNER JOIN USER ON FEEDER.ID_USER = USER.ID_USER WHERE USER.ID_USER = ?;");
+    }
+    
     public static PreparedStatement InsertNewUser(Connection con) {
         return getStatement(con, "INSERT INTO USER (ID_USER, NAME, FIRST_SURNAME, SEC_SURNAME, EMAIL, PASSWORD) VALUES (?, ?, ?, ?, ?, ?);");
+    }
+    
+    public static PreparedStatement InsertNewRation(Connection con) {
+        return getStatement(con, "INSERT INTO RATION (ID_RATION, TIMEP, WEIGHTG, ID_FEEDER) VALUES (?, ?, ?, ?);");
     }
     
     public static PreparedStatement InsertNewPet(Connection con) {
@@ -169,12 +196,20 @@ public class ConnectionDDBB {
         return getStatement(con, "INSERT INTO RECORD (ID_RECORD, DATER, TIMER, VALUE, ID_RATION, ID_SENSOR, ID_FEEDER) VALUES (?, ?, ?, ?, ?, ?, ?);");
     }
     
+    public static PreparedStatement DeleteUser(Connection con) {
+        return getStatement(con, "DELETE FROM USER WHERE ID_USER = ?;");
+    }
+    
     public static PreparedStatement DeletePet(Connection con) {
         return getStatement(con, "DELETE FROM PET WHERE ID_PET = ?;");
     }
     
-    public static PreparedStatement DeleteSchedule(Connection con) {
-        return getStatement(con, "DELETE FROM RATION WHERE ID_RATION = ? AND ID_FEEDER = ?;");
+    public static PreparedStatement DeletePetWithUser(Connection con) {
+        return getStatement(con, "DELETE FROM PET WHERE ID_USER = ?;");
+    }
+    
+    public static PreparedStatement DeleteRation(Connection con) {
+        return getStatement(con, "DELETE FROM RATION WHERE ID_FEEDER = ? AND ID_RATION = ?;");
     }
     
     public static PreparedStatement UpdateFeederUser(Connection con) {
@@ -187,6 +222,22 @@ public class ConnectionDDBB {
     
     public static PreparedStatement GetLastIdPetDB(Connection con) {
         return getStatement(con, "SELECT ID_PET FROM PET ORDER BY ID_PET DESC LIMIT 1;");
+    }
+    
+    public static PreparedStatement GetLastIdRationDB(Connection con) {
+        return getStatement(con, "SELECT ID_RATION FROM RATION WHERE ID_FEEDER = ? ORDER BY ID_RATION DESC LIMIT 1;");
+    }
+    
+    public static PreparedStatement GetIdFeeder(Connection con) {
+        return getStatement(con, "SELECT ID_FEEDER FROM FEEDER WHERE ID_USER = ?;");
+    }
+    
+    public static PreparedStatement DisableFK(Connection con) {
+        return getStatement(con, "SET FOREIGN_KEY_CHECKS=0;");
+    }
+    
+    public static PreparedStatement EnableFK(Connection con) {
+        return getStatement(con, "SET FOREIGN_KEY_CHECKS=1;");
     }
     
 }

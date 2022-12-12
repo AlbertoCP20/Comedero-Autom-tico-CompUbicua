@@ -2,7 +2,6 @@ package servlets;
 
 import com.google.gson.Gson;
 import db.Pet;
-import db.RecordJafe;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class GetPetUser extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         try {
-            ArrayList<Pet> values = Logic.getPetUserFromDB(request.getParameter("idUser"));
+            Pet values = Logic.getPetUserFromDB(request.getParameter("idUser"));
             
             String jsonPets = new Gson().toJson(values);
             Log.log.info("JSON Values=> {}", jsonPets);

@@ -34,7 +34,7 @@ public class GetUserInfo extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         try {
-            ArrayList<User> values = Logic.getUserIDFromDB(request.getParameter("idUser"));
+            User values = Logic.getUserIDFromDB(request.getParameter("idUser"));
             
             String jsonUser = new Gson().toJson(values);
             Log.log.info("JSON Values=> {}", jsonUser);

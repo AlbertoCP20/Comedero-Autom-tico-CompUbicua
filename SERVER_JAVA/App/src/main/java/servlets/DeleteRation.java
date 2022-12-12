@@ -14,7 +14,7 @@ import logic.Logic;
  *
  * @author mfran
  */
-public class DeleteUser extends HttpServlet {
+public class DeleteRation extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -27,17 +27,19 @@ public class DeleteUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        Log.log.info("-- Delete user " + request.getParameter("idUser")+ " from DB --");
+        Log.log.info("-- Delete ration from DB --");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
         try {
+            
+            String idRation = request.getParameter("idRation");
             String idUser = request.getParameter("idUser");
             
-            Logic.deleteUserFromDB(idUser);
+            Logic.deleteRationFromDB(idRation, idUser);
             
             String json = new Gson().toJson(1);
-            Log.log.info("User " + idUser + " has been deleted");
+            Log.log.info("User " + idUser + " ration " + idRation + " has been deleted");
             Log.log.info("JSON value => {}", json);
             out.println(json);
 
@@ -56,7 +58,6 @@ public class DeleteUser extends HttpServlet {
         } finally {
             out.close();
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

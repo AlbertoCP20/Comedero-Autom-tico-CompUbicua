@@ -20,6 +20,7 @@ import db.RecordJafe;
 import db.Ration;
 import db.Topic;
 import db.User;
+import java.sql.Types;
 
 /**
  *
@@ -248,11 +249,11 @@ public class Logic {
         return schedules;
     }
     
-    public static ArrayList<User> getUserIDFromDB(String idUser) {
-        ArrayList<User> users = new ArrayList<>();
+    public static User getUserIDFromDB(String idUser) {
         
         ConnectionDDBB conector = new ConnectionDDBB();
         Connection con = null;
+        User user = new User();
         
         try {
             con = conector.obtainConnection(true);
@@ -263,35 +264,29 @@ public class Logic {
             ps.setInt(1, Integer.parseInt(idUser));
             ResultSet rs = ps.executeQuery();
             
-            while (rs.next()) {
-                User user = new User();
+            if (rs.next()) {
                 user.setIdUser(rs.getInt("id_user"));
                 user.setName(rs.getString("name"));
                 user.setFirstSurname(rs.getString("first_surname"));
                 user.setSecondSurname(rs.getString("sec_surname"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
-                
-                users.add(user);
             }	
                 
         } catch (SQLException sqle) {
             Log.log.error("Error: {}", sqle);
-            users = new ArrayList<>();
                 
         } catch (NullPointerException npe) {
             Log.log.error("Error: {}", npe);
-            users = new ArrayList<>();
                 
         } catch (Exception e) {
             Log.log.error("Error:{}", e);
-            users = new ArrayList<>();
                 
         } finally {
             conector.closeConnection(con);
         }
         
-        return users;
+        return user;
     }
     
     public static int getUserValidation(String email, String password) {
@@ -425,12 +420,85 @@ public class Logic {
         }
     }
     
-    public static ArrayList<Pet> getPetUserFromDB(String idUser) {
+    public static float getPercentageFood(String idUser) {
+        ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        float cantidad = -1;
         
-        ArrayList<Pet> pets = new ArrayList<>();
+        try {
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+            PreparedStatement ps = ConnectionDDBB.GetPercentageFood(con);
+            Log.log.info("Query=> {}", ps.toString());
+            
+            ps.setInt(1, Integer.parseInt(idUser));
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                cantidad = rs.getFloat("percentage_food");
+            }	
+                
+        } catch (SQLException sqle) {
+            Log.log.error("Error: {}", sqle);
+                
+        } catch (NullPointerException npe) {
+            Log.log.error("Error: {}", npe);
+                
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+                
+        } finally {
+            conector.closeConnection(con);
+        }
+        
+        return cantidad;
+    }
+    
+    public static int getStatusPetUser(String idUser) {
+        ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        int estado = -1;
+        
+        try {
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+            PreparedStatement ps = ConnectionDDBB.GetStatusPetByUser(con);
+            Log.log.info("Query=> {}", ps.toString());
+            
+            ps.setInt(1, Integer.parseInt(idUser));
+            ResultSet rs = ps.executeQuery();
+            
+
+            if (rs.next()) {
+                if (rs.getBoolean("status")) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            }
+            
+        } catch (SQLException sqle) {
+            Log.log.error("Error: {}", sqle);
+                
+        } catch (NullPointerException npe) {
+            Log.log.error("Error: {}", npe);
+                
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+                
+        } finally {
+            conector.closeConnection(con);
+        }
+        
+        return estado;
+    }
+    
+    public static Pet getPetUserFromDB(String idUser) {
 
         ConnectionDDBB conector = new ConnectionDDBB();
         Connection con = null;
+        Pet pet = new Pet();
         
         try {
             con = conector.obtainConnection(true);
@@ -441,8 +509,7 @@ public class Logic {
             ps.setInt(1, Integer.parseInt(idUser));
             ResultSet rs = ps.executeQuery();
             
-            while (rs.next()) {
-                Pet pet = new Pet();
+            if (rs.next()) {
                 pet.setId(rs.getInt("id_pet"));
                 pet.setName(rs.getString("name"));
                 pet.setGender(rs.getString("gender").charAt(0));
@@ -450,27 +517,105 @@ public class Logic {
                 pet.setType(rs.getString("type"));
                 pet.setStatus(rs.getBoolean("status"));
                 pet.setIdOwner(rs.getInt("id_user"));
-                
-                pets.add(pet);
             }	
                 
         } catch (SQLException sqle) {
             Log.log.error("Error: {}", sqle);
-            pets = new ArrayList<>();
                 
         } catch (NullPointerException npe) {
             Log.log.error("Error: {}", npe);
-            pets = new ArrayList<>();
                 
         } catch (Exception e) {
             Log.log.error("Error:{}", e);
-            pets = new ArrayList<>();
                 
         } finally {
             conector.closeConnection(con);
         }
         
-        return pets;
+        return pet;
+    }
+    
+    public static Feeder getUserFeederFromDB(String idUser) {
+
+        ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        Feeder feeder = new Feeder();
+        
+        try {
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+            PreparedStatement ps = ConnectionDDBB.GetUserFeeder(con);
+            Log.log.info("Query=> {}", ps.toString());
+            
+            ps.setInt(1, Integer.parseInt(idUser));
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                feeder.setIdFeeder(rs.getString("id_feeder"));
+                feeder.setFood(rs.getFloat("percentage_food"));
+                feeder.setWater(rs.getFloat("percentage_water"));
+                feeder.setIdUser(rs.getInt("id_user"));
+            }	
+                
+        } catch (SQLException sqle) {
+            Log.log.error("Error: {}", sqle);
+                
+        } catch (NullPointerException npe) {
+            Log.log.error("Error: {}", npe);
+                
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+                
+        } finally {
+            conector.closeConnection(con);
+        }
+        
+        return feeder;
+    }
+    
+    public static ArrayList<Ration> getRationsUser(String idUser) {
+        
+        ArrayList<Ration> rations = new ArrayList<>();
+
+        ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        
+        try {
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+            PreparedStatement ps = ConnectionDDBB.GetRationsByIdUser(con);
+            Log.log.info("Query=> {}", ps.toString());
+            
+            ps.setInt(1, Integer.parseInt(idUser));
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Ration ration = new Ration();
+                ration.setIdRation(rs.getInt("id_ration"));
+                ration.setFoodTime(rs.getTime("timeP"));
+                ration.setWeight(rs.getFloat("weightG"));
+                ration.setIdFeeder(rs.getString("id_feeder"));
+                
+                rations.add(ration);
+            }	
+                
+        } catch (SQLException sqle) {
+            Log.log.error("Error: {}", sqle);
+            rations = new ArrayList<>();
+                
+        } catch (NullPointerException npe) {
+            Log.log.error("Error: {}", npe);
+            rations = new ArrayList<>();
+                
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+            rations = new ArrayList<>();
+                
+        } finally {
+            conector.closeConnection(con);
+        }
+        
+        return rations;
     }
     
     public static ArrayList<Ration> getSchedulesUserFromDB(String idFeeder) {
@@ -568,6 +713,58 @@ public class Logic {
         
     }
     
+    public static ArrayList<RecordJafe> getRecordsPortion(String idUser, String idPortion, String date) {
+        
+        ArrayList<RecordJafe> records = new ArrayList<>();
+
+        ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        
+        try {
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+            PreparedStatement ps = ConnectionDDBB.GetRecordsPortion(con);
+            Log.log.info("Query=> {}", ps.toString());
+            
+            ps.setInt(1, Integer.parseInt(idUser));
+            ps.setInt(2, Integer.parseInt(idPortion));
+            ps.setDate(3, Date.valueOf(date));
+            ps.setInt(4, 1);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                RecordJafe recordJafe = new RecordJafe();
+                recordJafe.setIdRecord(rs.getInt("id_record"));
+                recordJafe.setDate(rs.getDate("dateR"));
+                recordJafe.setTime(rs.getTime("timeR"));
+                recordJafe.setValue(rs.getFloat("value"));
+                recordJafe.setIdRation(rs.getInt("id_ration"));
+                recordJafe.setIdSensor(rs.getInt("id_sensor"));
+                recordJafe.setIdFeeder(rs.getString("id_feeder"));
+                
+                records.add(recordJafe);
+            }	
+                
+        } catch (SQLException sqle) {
+            Log.log.error("Error: {}", sqle);
+            records = new ArrayList<>();
+                
+        } catch (NullPointerException npe) {
+            Log.log.error("Error: {}", npe);
+            records = new ArrayList<>();
+                
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+            records = new ArrayList<>();
+                
+        } finally {
+            conector.closeConnection(con);
+        }
+        
+        return records;
+        
+    }
+    
     public static int addNewUser(User user, String idFeeder) {
         
         ConnectionDDBB conector = new ConnectionDDBB();
@@ -612,6 +809,46 @@ public class Logic {
         return 1;
     }
     
+    public static int addNewRation(Ration ration, String idUser) {
+        
+        ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        int newId;
+        String idFeeder = "";
+        
+        try
+	{
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+            PreparedStatement ps = ConnectionDDBB.InsertNewRation(con);
+            
+            idFeeder = getIdFeederUser(idUser);
+            newId = getLastIdRation(idFeeder) + 1;
+            ps.setInt(1, newId);
+            ps.setTime(2, ration.getFoodTime());
+            ps.setFloat(3, ration.getWeight());
+            ps.setString(4, idFeeder);
+            Log.log.info("Query=> {}", ps.toString());
+            ps.executeUpdate();
+            
+	} catch (SQLException e) {
+            Log.log.error("Error: {}", e);
+            return 0;
+            
+	} catch (NullPointerException e) {
+            Log.log.error("Error: {}", e);
+            return 0;
+            
+	} catch (Exception e) {
+            Log.log.error("Error:{}", e);
+            return 0;
+            
+        } finally {
+            conector.closeConnection(con);
+	}
+        return 1;
+    }
+    
     public static int addUserToFeeder(int idUser, String idFeeder) {
 
 	ConnectionDDBB conector = new ConnectionDDBB();
@@ -623,7 +860,12 @@ public class Logic {
             Log.log.debug("Database Connected");
 		
             PreparedStatement ps = ConnectionDDBB.UpdateFeederUser(con);
-            ps.setInt(1, idUser);
+            if (idUser == -1) {
+                ps.setNull(1, Types.INTEGER);
+            }
+            else {
+                ps.setInt(1, idUser);
+            }
             ps.setString(2, idFeeder);
             Log.log.info("Query=> {}", ps.toString());
             ps.executeUpdate();
@@ -715,7 +957,43 @@ public class Logic {
         }
     }
     
-    public static void deleteScheduleFromDB(String idSchedule, String idFeeder) {
+    public static void deleteUserFromDB(String idUser) {
+        ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        String idFeeder = "";
+        
+        try {
+            
+            deletePetUserFromDB(idUser);
+            idFeeder = getIdFeederUser(idUser);
+            addUserToFeeder(-1, idFeeder);
+            
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+            
+            PreparedStatement ps = ConnectionDDBB.DeleteUser(con);
+            
+            ps.setInt(1, Integer.parseInt(idUser));
+            
+            Log.log.info("Query=> {}", ps.toString());
+            ps.executeUpdate();  
+            
+	} catch (SQLException e)
+	{
+            Log.log.error("Error: {}", e);
+	} catch (NullPointerException e)
+	{
+            Log.log.error("Error: {}", e);
+	} catch (Exception e)
+	{
+            Log.log.error("Error:{}", e);
+        } finally
+        {
+            conector.closeConnection(con);
+	}
+    }
+    
+    public static void deleteRationFromDB(String idRation, String idUser) {
         ConnectionDDBB conector = new ConnectionDDBB();
         Connection con = null;
         
@@ -723,14 +1001,22 @@ public class Logic {
 	{
             con = conector.obtainConnection(true);
             Log.log.debug("Database Connected");
+            String idFeeder = "";
             
-            PreparedStatement ps = ConnectionDDBB.DeleteSchedule(con);
+            idFeeder = getIdFeederUser(idUser);
             
-            ps.setInt(1, Integer.parseInt(idSchedule));
-            ps.setString(2, idFeeder);
+            PreparedStatement ps = ConnectionDDBB.DisableFK(con);
+            ps.execute();
+            
+            ps = ConnectionDDBB.DeleteRation(con);
+            ps.setString(1, idFeeder);
+            ps.setInt(2, Integer.parseInt(idRation));
             
             Log.log.info("Query=> {}", ps.toString());
             ps.executeUpdate();  
+            
+            ps = ConnectionDDBB.EnableFK(con);
+            ps.execute();
             
 	} catch (SQLException e)
 	{
@@ -777,6 +1063,36 @@ public class Logic {
             conector.closeConnection(con);
 	}
     }
+    public static void deletePetUserFromDB(String idUser) {
+        ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        
+        try
+	{
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+            
+            PreparedStatement ps = ConnectionDDBB.DeletePetWithUser(con);
+            
+            ps.setInt(1, Integer.parseInt(idUser));
+            
+            Log.log.info("Query=> {}", ps.toString());
+            ps.executeUpdate();  
+            
+	} catch (SQLException e)
+	{
+            Log.log.error("Error: {}", e);
+	} catch (NullPointerException e)
+	{
+            Log.log.error("Error: {}", e);
+	} catch (Exception e)
+	{
+            Log.log.error("Error:{}", e);
+        } finally
+        {
+            conector.closeConnection(con);
+	}
+    }
     
     private static int getLastIdUser(){
         int ultimoCod=-1;
@@ -793,6 +1109,76 @@ public class Logic {
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 ultimoCod=rs.getInt("id_user");
+            }
+             
+        } catch (SQLException e) {
+            Log.log.error("Error: {}", e);
+            return -1; 
+            
+        } catch (NullPointerException e) {
+            Log.log.error("Error: {}", e);
+            return -1;
+            
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+            return -1; 
+            
+        } finally {
+            conector.closeConnection(con);
+	}
+        return ultimoCod;
+    }
+    
+    public static String getIdFeederUser(String idUser) {
+	ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        String codigo = "";
+        
+        try {
+            
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+		
+            PreparedStatement ps = ConnectionDDBB.GetIdFeeder(con);
+            Log.log.info("Query=> {}", ps.toString());
+            ps.setInt(1, Integer.parseInt(idUser));
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                codigo = rs.getString("id_feeder");
+            }
+             
+        } catch (SQLException e) {
+            Log.log.error("Error: {}", e);
+            
+        } catch (NullPointerException e) {
+            Log.log.error("Error: {}", e);
+            
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+            
+        } finally {
+            conector.closeConnection(con);
+	}
+        return codigo;
+    }
+    
+    private static int getLastIdRation(String idFeeder){
+        int ultimoCod=-1;
+	ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        
+        try {
+            
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+		
+            PreparedStatement ps = ConnectionDDBB.GetLastIdRationDB(con);
+            ps.setString(1, idFeeder);
+            Log.log.info("Query=> {}", ps.toString());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                ultimoCod=rs.getInt("id_ration");
             }
              
         } catch (SQLException e) {

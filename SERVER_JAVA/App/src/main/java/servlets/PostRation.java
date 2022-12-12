@@ -1,8 +1,10 @@
 package servlets;
 
 import com.google.gson.Gson;
+import db.Ration;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Time;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +16,7 @@ import logic.Logic;
  *
  * @author mfran
  */
-public class DeleteUser extends HttpServlet {
+public class PostRation extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -26,18 +28,20 @@ public class DeleteUser extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        Log.log.info("-- Delete user " + request.getParameter("idUser")+ " from DB --");
+        Log.log.info("-- Post New Ration User " + request.getParameter("idUser") + " information to DB --");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
         try {
             String idUser = request.getParameter("idUser");
+            int result;
             
-            Logic.deleteUserFromDB(idUser);
+            Ration ration = new Ration();
+            ration.setFoodTime(Time.valueOf(request.getParameter("time")));
+            ration.setWeight(Float.parseFloat(request.getParameter("weight")));
             
-            String json = new Gson().toJson(1);
-            Log.log.info("User " + idUser + " has been deleted");
+            result = Logic.addNewRation(ration, idUser);
+            String json = new Gson().toJson(result);
             Log.log.info("JSON value => {}", json);
             out.println(json);
 
@@ -56,7 +60,6 @@ public class DeleteUser extends HttpServlet {
         } finally {
             out.close();
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

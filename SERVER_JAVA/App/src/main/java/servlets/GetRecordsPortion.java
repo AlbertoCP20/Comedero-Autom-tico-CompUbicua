@@ -1,8 +1,10 @@
 package servlets;
 
 import com.google.gson.Gson;
+import db.RecordJafe;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +16,7 @@ import logic.Logic;
  *
  * @author mfran
  */
-public class DeleteSchedule extends HttpServlet {
+public class GetRecordsPortion extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -27,17 +29,20 @@ public class DeleteSchedule extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        Log.log.info("-- Delete schedule from DB --");
+        Log.log.info("-- Get Records User " + request.getParameter("idUser")+ "Portion " + request.getParameter("idPortion")+ " information from DB --");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
+        String idUser = request.getParameter("idUser");
+        String idPortion = request.getParameter("idPortion");
+        String date = request.getParameter("date");
+        
         try {
-            Logic.deleteScheduleFromDB(request.getParameter("idSchedule"), request.getParameter("idFeeder"));
+            ArrayList<RecordJafe> values = Logic.getRecordsPortion(idUser, idPortion, date);
             
-            String json = new Gson().toJson(1);
-            Log.log.info("Feeder " + request.getParameter("idFeeder") + " schedule " + request.getParameter("idSchedule") + " has been deleted");
-            Log.log.info("JSON value => {}", json);
-            out.println(json);
+            String jsonRecords = new Gson().toJson(values);
+            Log.log.info("JSON Values=> {}", jsonRecords);
+            out.println(jsonRecords);
 
         } catch (NumberFormatException nfe) {
             out.println("-1");

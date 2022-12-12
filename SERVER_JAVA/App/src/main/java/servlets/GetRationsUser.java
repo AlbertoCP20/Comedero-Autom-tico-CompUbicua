@@ -1,8 +1,10 @@
 package servlets;
 
 import com.google.gson.Gson;
+import db.Ration;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +16,7 @@ import logic.Logic;
  *
  * @author mfran
  */
-public class DeleteUser extends HttpServlet {
+public class GetRationsUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -27,19 +29,18 @@ public class DeleteUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        Log.log.info("-- Delete user " + request.getParameter("idUser")+ " from DB --");
+        Log.log.info("-- Get Rations User " + request.getParameter("idUser")+ " information from DB --");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
+        String idUser = request.getParameter("idUser");
+        
         try {
-            String idUser = request.getParameter("idUser");
+            ArrayList<Ration> values = Logic.getRationsUser(idUser);
             
-            Logic.deleteUserFromDB(idUser);
-            
-            String json = new Gson().toJson(1);
-            Log.log.info("User " + idUser + " has been deleted");
-            Log.log.info("JSON value => {}", json);
-            out.println(json);
+            String jsonRecords = new Gson().toJson(values);
+            Log.log.info("JSON Values=> {}", jsonRecords);
+            out.println(jsonRecords);
 
         } catch (NumberFormatException nfe) {
             out.println("-1");
