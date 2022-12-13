@@ -17,7 +17,7 @@ import mqtt.MQTTPublisher;
  * @author mfran
  */
 public class ThreadTimeFood extends Thread {
-    private int TIME = 3;
+    private int TIME = 1;
     private int TICKS = 3;
     
     public ThreadTimeFood() {
@@ -26,8 +26,8 @@ public class ThreadTimeFood extends Thread {
     
     @Override
     public void run() {
-        HashMap<String, Integer> feeders = new HashMap<String, Integer>();
-        ArrayList<String> idDelete = new ArrayList<String>();
+        HashMap<String, Integer> feeders = new HashMap<>();
+        ArrayList<String> idDelete = new ArrayList<>();
         Set<String> keySet;
 
         LocalTime dateTime; 
@@ -37,7 +37,7 @@ public class ThreadTimeFood extends Thread {
         MQTTPublisher.publish(broker, "TOCK/TOCK", "Prueba");
         
         while (true) {
-            Log.log.info("--Search Schedule--");
+            Log.log.info("--Search Ration--");
             ArrayList<Ration> schedules = Logic.getSchedulesFromDB();
             String jsonSchedules = new Gson().toJson(schedules);
             Log.log.info("JSON Values=> {}", jsonSchedules);
@@ -47,7 +47,7 @@ public class ThreadTimeFood extends Thread {
                 dif = ChronoUnit.MINUTES.between(dateTime, LocalTime.now());
                 
                 String idFeeder = schedules.get(i).getIdFeeder();
-                System.out.println("diferencia " + dif);
+                System.out.println("diferencia - " + idFeeder);
                 
                 if (dif >= 0 && dif <= TIME && !feeders.containsKey(idFeeder)) {
                     MQTTPublisher.publish(broker, "Comedero" + idFeeder + "/Racion", String.valueOf(schedules.get(i).getWeight()));
@@ -58,7 +58,6 @@ public class ThreadTimeFood extends Thread {
             
             keySet = feeders.keySet();
             for (String key : keySet) {
-		//System.out.println(key+"--->"+feeders.get(key));
                 int contador = feeders.get(key);
                 feeders.put(key, (contador + 1));
                 

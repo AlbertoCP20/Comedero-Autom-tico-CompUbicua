@@ -729,7 +729,6 @@ public class Logic {
             ps.setInt(1, Integer.parseInt(idUser));
             ps.setInt(2, Integer.parseInt(idPortion));
             ps.setDate(3, Date.valueOf(date));
-            ps.setInt(4, 1);
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
@@ -933,18 +932,23 @@ public class Logic {
         
         ConnectionDDBB conector = new ConnectionDDBB();
         Connection con = null;
+        int newId, idSensor;
         
         try {
             con = conector.obtainConnection(true);
             Log.log.debug("Database Connected");
+            newId = getLastIdRecord() + 1;
+            idSensor = getIdSensor(newTopic.getIdFeeder(), newTopic.getType());
             
             PreparedStatement ps = ConnectionDDBB.InsertNewMeasurement(con);
             
-            ps.setDate(1, Date.valueOf(LocalDate.now(ZoneId.of("Europe/Madrid"))));
-            ps.setTime(2, Time.valueOf(LocalTime.now(ZoneId.of("Europe/Madrid"))));
-            ps.setFloat(3, newTopic.getValor());
-            ps.setInt(4, newTopic.getIdSensor());
-            ps.setString(5, newTopic.getIdFeeder());
+            ps.setInt(1, newId);
+            ps.setDate(2, Date.valueOf(LocalDate.now(ZoneId.of("Europe/Madrid"))));
+            ps.setTime(3, Time.valueOf(LocalTime.now(ZoneId.of("Europe/Madrid"))));
+            ps.setFloat(4, newTopic.getValor());
+            ps.setNull(5, Types.INTEGER);
+            ps.setInt(6, idSensor);
+            ps.setString(7, newTopic.getIdFeeder());
             
             Log.log.info("Query=> {}", ps.toString());
             ps.executeUpdate();
@@ -1199,6 +1203,41 @@ public class Logic {
         return ultimoCod;
     }
     
+    private static int getLastIdRecord(){
+        int ultimoCod=-1;
+	ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        
+        try {
+            
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+		
+            PreparedStatement ps = ConnectionDDBB.GetLastIdRecordDB(con);
+            Log.log.info("Query=> {}", ps.toString());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                ultimoCod=rs.getInt("id_record");
+            }
+             
+        } catch (SQLException e) {
+            Log.log.error("Error: {}", e);
+            return -1; 
+            
+        } catch (NullPointerException e) {
+            Log.log.error("Error: {}", e);
+            return -1;
+            
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+            return -1; 
+            
+        } finally {
+            conector.closeConnection(con);
+	}
+        return ultimoCod;
+    }
+    
     private static int getLastIdPet(){
         int ultimoCod=-1;
 	ConnectionDDBB conector = new ConnectionDDBB();
@@ -1214,6 +1253,43 @@ public class Logic {
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 ultimoCod=rs.getInt("id_pet");
+            }
+             
+        } catch (SQLException e) {
+            Log.log.error("Error: {}", e);
+            return -1; 
+            
+        } catch (NullPointerException e) {
+            Log.log.error("Error: {}", e);
+            return -1;
+            
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+            return -1; 
+            
+        } finally {
+            conector.closeConnection(con);
+	}
+        return ultimoCod;
+    }
+    
+    public static int getIdSensor(String idFeeder, String tipo) {
+        int ultimoCod=-1;
+	ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        
+        try {
+            
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+		
+            PreparedStatement ps = ConnectionDDBB.GetIdSensor(con);
+            ps.setString(1, idFeeder);
+            ps.setString(2, tipo);
+            Log.log.info("Query=> {}", ps.toString());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                ultimoCod=rs.getInt("id_sensor");
             }
              
         } catch (SQLException e) {

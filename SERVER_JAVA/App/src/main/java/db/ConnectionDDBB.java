@@ -160,7 +160,7 @@ public class ConnectionDDBB {
     public static PreparedStatement GetRecordsPortion(Connection con) {
         return getStatement(con, "SELECT ID_RECORD, DATER, TIMER, VALUE, ID_RATION, ID_SENSOR, RECORD.ID_FEEDER FROM RECORD INNER JOIN FEEDER\n" +
             "ON RECORD.ID_FEEDER = FEEDER.ID_FEEDER INNER JOIN USER ON FEEDER.ID_USER = USER.ID_USER\n" +
-            "WHERE USER.ID_USER = ? AND RECORD.ID_RATION = ? AND RECORD.DATER = ? AND RECORD.ID_SENSOR = ?;");
+            "WHERE USER.ID_USER = ? AND RECORD.ID_RATION = ? AND RECORD.DATER = ?;");
     }
     
     public static PreparedStatement GetStatusPetByUser(Connection con) {
@@ -228,6 +228,10 @@ public class ConnectionDDBB {
         return getStatement(con, "SELECT ID_RATION FROM RATION WHERE ID_FEEDER = ? ORDER BY ID_RATION DESC LIMIT 1;");
     }
     
+    public static PreparedStatement GetLastIdRecordDB(Connection con) {
+        return getStatement(con, "SELECT ID_RECORD FROM RECORD ORDER BY ID_RECORD DESC LIMIT 1;");
+    }
+    
     public static PreparedStatement GetIdFeeder(Connection con) {
         return getStatement(con, "SELECT ID_FEEDER FROM FEEDER WHERE ID_USER = ?;");
     }
@@ -238,6 +242,10 @@ public class ConnectionDDBB {
     
     public static PreparedStatement EnableFK(Connection con) {
         return getStatement(con, "SET FOREIGN_KEY_CHECKS=1;");
+    }
+    
+    public static PreparedStatement GetIdSensor(Connection con) {
+        return getStatement(con, "SELECT ID_SENSOR FROM SENSOR WHERE ID_FEEDER = ? AND TYPE = ?;");
     }
     
 }

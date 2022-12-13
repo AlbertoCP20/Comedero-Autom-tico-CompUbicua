@@ -94,21 +94,31 @@ public class MQTTSubscriber implements MqttCallback{
         Topic newTopic = new Topic();
         
         if (topic.contains("Sensor")) {
+            String idFeeder = topics[0].replace("Comedero", "");
             
-            newTopic.setIdFeeder(topics[0].replace("Comedero", ""));
-            newTopic.setIdSensor(Integer.parseInt(topics[1].replace("Sensor", "")));
-            newTopic.setValor(Float.parseFloat(message.toString()));
-            
-            Log.logmqtt.info("Mensaje from feeder{}, sensor{}: {}", 
-                            newTopic.getIdFeeder(), newTopic.getIdSensor(), message.toString());
-            
-            if (newTopic.getIdSensor() == 1) {
+            if (topic.contains("PreassureF")) {
+                
+                newTopic.setIdFeeder(idFeeder); 
+                newTopic.setType("Presión");
+                newTopic.setValor(Float.parseFloat(message.toString()));
+
+                Log.logmqtt.info("Mensaje from feeder{}, sensor{}: {}", 
+                                newTopic.getIdFeeder(), newTopic.getIdSensor(), message.toString());
+
                 Logic.storeNewMeasurement(newTopic);
             }
-            
-        }
-        else if (topic.contains("Actuador")) {
-            
+            else if (topic.contains("Infrared")){
+                
+                newTopic.setIdFeeder(idFeeder);
+                newTopic.setType("Infrarrojo");
+                newTopic.setValor(Float.parseFloat(message.toString()));
+
+                Log.logmqtt.info("Mensaje from feeder{}, sensor{}: {}", 
+                                newTopic.getIdFeeder(), newTopic.getIdSensor(), message.toString());
+
+                Logic.storeNewMeasurement(newTopic);
+
+            }
         }
         
     }
