@@ -22,8 +22,8 @@ void OnMqttReceived(char* topic, byte* payload, unsigned int length) {
 }
 
 // Gets the value of the content we receive from a topic
-String getContent(){
-  return content;
+int getContent(){
+  return content.toInt();
 }
 
 // Checks the topic from which the data is received. If topic == Comedero1/Racion then true
