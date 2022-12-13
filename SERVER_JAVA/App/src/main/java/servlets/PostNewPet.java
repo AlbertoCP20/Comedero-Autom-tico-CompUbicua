@@ -1,6 +1,7 @@
 package servlets;
 
 import com.google.gson.Gson;
+import db.Pet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -14,7 +15,7 @@ import logic.Logic;
  *
  * @author mfran
  */
-public class DeleteSchedule extends HttpServlet {
+public class PostNewPet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -26,16 +27,24 @@ public class DeleteSchedule extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        Log.log.info("-- Delete schedule from DB --");
+       
+        Log.log.info("-- Post New Pet information to DB --");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
         try {
-            Logic.deleteScheduleFromDB(request.getParameter("idSchedule"), request.getParameter("idFeeder"));
+            int result;
             
-            String json = new Gson().toJson(1);
-            Log.log.info("Feeder " + request.getParameter("idFeeder") + " schedule " + request.getParameter("idSchedule") + " has been deleted");
+            Pet pet = new Pet();
+            pet.setName(request.getParameter("name"));
+            pet.setGender(request.getParameter("gender").charAt(0));
+            pet.setWeight(Float.parseFloat(request.getParameter("weight")));
+            pet.setType(request.getParameter("type"));
+            pet.setStatus(Boolean.parseBoolean(request.getParameter("status")));
+            pet.setIdOwner(Integer.parseInt(request.getParameter("idUser")));
+            
+            result = Logic.addNewPet(pet);
+            String json = new Gson().toJson(result);
             Log.log.info("JSON value => {}", json);
             out.println(json);
 

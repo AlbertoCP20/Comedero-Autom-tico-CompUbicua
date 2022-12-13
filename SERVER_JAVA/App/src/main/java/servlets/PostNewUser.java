@@ -1,6 +1,7 @@
 package servlets;
 
 import com.google.gson.Gson;
+import db.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -14,7 +15,7 @@ import logic.Logic;
  *
  * @author mfran
  */
-public class DeleteUser extends HttpServlet {
+public class PostNewUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -27,17 +28,24 @@ public class DeleteUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        Log.log.info("-- Delete user " + request.getParameter("idUser")+ " from DB --");
+        Log.log.info("-- Post New User information to DB --");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
         try {
-            String idUser = request.getParameter("idUser");
+            String idFeeder;
+            int idUser;
             
-            Logic.deleteUserFromDB(idUser);
+            User user = new User();
+            user.setName(request.getParameter("name"));
+            user.setFirstSurname(request.getParameter("first"));
+            user.setSecondSurname(request.getParameter("second"));
+            user.setEmail(request.getParameter("email"));
+            user.setPassword(request.getParameter("password"));
+            idFeeder = request.getParameter("idFeeder");
             
-            String json = new Gson().toJson(1);
-            Log.log.info("User " + idUser + " has been deleted");
+            idUser = Logic.addNewUser(user, idFeeder);
+            String json = new Gson().toJson(idUser);
             Log.log.info("JSON value => {}", json);
             out.println(json);
 

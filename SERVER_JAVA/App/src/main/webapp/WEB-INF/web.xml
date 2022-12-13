@@ -29,10 +29,6 @@
         <servlet-class>servlets.DeleteUser</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>DeleteSchedule</servlet-name>
-        <servlet-class>servlets.DeleteSchedule</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>DeletePet</servlet-name>
         <servlet-class>servlets.DeletePet</servlet-class>
     </servlet>
@@ -59,6 +55,42 @@
     <servlet>
         <servlet-name>ValidateFeeder</servlet-name>
         <servlet-class>servlets.ValidateFeeder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PostNewUser</servlet-name>
+        <servlet-class>servlets.PostNewUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PostNewPet</servlet-name>
+        <servlet-class>servlets.PostNewPet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetRecordsPortion</servlet-name>
+        <servlet-class>servlets.GetRecordsPortion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetStatusPet</servlet-name>
+        <servlet-class>servlets.GetStatusPet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetPercentageFood</servlet-name>
+        <servlet-class>servlets.GetPercentageFood</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetRationsUser</servlet-name>
+        <servlet-class>servlets.GetRationsUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetUserFeeder</servlet-name>
+        <servlet-class>servlets.GetUserFeeder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteRation</servlet-name>
+        <servlet-class>servlets.DeleteRation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PostRation</servlet-name>
+        <servlet-class>servlets.PostRation</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>GetUsers</servlet-name>
@@ -89,10 +121,6 @@
         <url-pattern>/DeleteUser</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>DeleteSchedule</servlet-name>
-        <url-pattern>/DeleteSchedule</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>DeletePet</servlet-name>
         <url-pattern>/DeletePet</url-pattern>
     </servlet-mapping>
@@ -119,6 +147,42 @@
     <servlet-mapping>
         <servlet-name>ValidateFeeder</servlet-name>
         <url-pattern>/ValidateFeeder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostNewUser</servlet-name>
+        <url-pattern>/PostNewUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostNewPet</servlet-name>
+        <url-pattern>/PostNewPet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetRecordsPortion</servlet-name>
+        <url-pattern>/GetRecordsPortion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetStatusPet</servlet-name>
+        <url-pattern>/GetStatusPet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetPercentageFood</servlet-name>
+        <url-pattern>/GetPercentageFood</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetRationsUser</servlet-name>
+        <url-pattern>/GetRationsUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetUserFeeder</servlet-name>
+        <url-pattern>/GetUserFeeder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteRation</servlet-name>
+        <url-pattern>/DeleteRation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostRation</servlet-name>
+        <url-pattern>/PostRation</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
