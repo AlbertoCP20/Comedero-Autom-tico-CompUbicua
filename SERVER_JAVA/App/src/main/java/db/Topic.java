@@ -7,11 +7,13 @@ package db;
 public class Topic {
     
     private String idFeeder;
+    private String type;
     private int idSensor;
     private float valor;
     
-    public Topic(String idFeeder, int idSensor, int valor) {
+    public Topic(String idFeeder, String type, int idSensor, int valor) {
         this.idFeeder = idFeeder;
+        this.type = type;
         this.idSensor = idSensor;
         this.valor = valor;
     }
@@ -32,6 +34,10 @@ public class Topic {
         return valor;
     }
 
+    public String getType() {
+        return type;
+    }
+
     public void setIdFeeder(String idFeeder) {
         this.idFeeder = idFeeder;
     }
@@ -42,6 +48,10 @@ public class Topic {
 
     public void setValor(float valor) {
         this.valor = valor;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
     
 }

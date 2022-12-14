@@ -16,12 +16,14 @@ public class ProjectInitializar implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         Log.log.info("-->Suscribe Topics<--");
-        MQTTBroker broker = new MQTTBroker();
+        /*MQTTBroker broker = new MQTTBroker();
         MQTTSubscriber suscriber = new MQTTSubscriber();
-        suscriber.searchTopicsToSubscribe(broker);
+        suscriber.searchTopicsToSubscribe(broker);*/
 
+        new ThreadSubscriber();
+        
         Log.log.info("-->Running time Thread<--");
-        //new ThreadTimeFood();
+        new ThreadTimeFood();
         
         Log.log.info("-->Arrancado<--");
     }
