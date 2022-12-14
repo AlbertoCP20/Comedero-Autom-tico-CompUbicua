@@ -14,6 +14,7 @@ servlets\GetStatusPet.class
 servlets\GetRationsUser.class
 servlets\GetRecords.class
 mqtt\MQTTSubscriber.class
+logic\ThreadDataTreatment.class
 db\Sensor.class
 logic\ProjectInitializar.class
 servlets\ValidateFeeder.class
@@ -33,6 +34,7 @@ logic\Logic.class
 servlets\GetUserInfo.class
 servlets\PostRation.class
 logic\ThreadTimeFood.class
+db\Measurement.class
 servlets\GetSchedules.class
 db\ConnectionDDBB.class
 servlets\DeleteRation.class

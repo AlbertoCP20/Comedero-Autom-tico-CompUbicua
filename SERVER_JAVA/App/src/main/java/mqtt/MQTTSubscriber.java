@@ -97,10 +97,12 @@ public class MQTTSubscriber implements MqttCallback{
             String idFeeder = topics[0].replace("Comedero", "");
             
             if (topic.contains("PreassureF")) {
-                
+                String messageText = message.toString();
+                String[] listMessage = messageText.split("/");
                 newTopic.setIdFeeder(idFeeder); 
                 newTopic.setType("Presión");
-                newTopic.setValor(Float.parseFloat(message.toString()));
+                newTopic.setIdRation(Integer.parseInt(listMessage[0]));
+                newTopic.setValor(Float.parseFloat(listMessage[1]));
 
                 Log.logmqtt.info("Mensaje from feeder{}, sensor{}: {}", 
                                 newTopic.getIdFeeder(), newTopic.getIdSensor(), message.toString());

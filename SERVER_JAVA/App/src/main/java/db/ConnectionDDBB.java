@@ -249,13 +249,19 @@ public class ConnectionDDBB {
     }
     
     public static PreparedStatement GetWeightRecords(Connection con) {
-        return getStatement(con, "SELECT SUM(VALUE) AS WEIGHTEND, SUM(WEIGHTG) AS WEIGHTINI, FEEDER.ID_FEEDER, ID_USER FROM RECORD INNER JOIN FEEDER " +
-        "ON RECORD.ID_FEEDER = FEEDER.ID_FEEDER INNER JOIN RATION ON RECORD.ID_RATION = RATION.ID_RATION " +
+        return getStatement(con, "SELECT SUM(VALUE) AS WEIGHTEND, SUM(WEIGHTG) AS WEIGHTINI, FEEDER.ID_FEEDER, FEEDER.ID_USER, ID_PET, STATUS FROM RECORD " +
+        "INNER JOIN FEEDER ON RECORD.ID_FEEDER = FEEDER.ID_FEEDER " +
+        "INNER JOIN RATION ON RECORD.ID_RATION = RATION.ID_RATION " +
+        "INNER JOIN PET ON FEEDER.ID_USER = PET.ID_USER " +
         "WHERE FEEDER.ID_FEEDER = ? AND RATION.ID_FEEDER = ? AND DATER = ? AND RECORD.ID_RATION <> \"\";");
     }
     
     public static PreparedStatement GetIdFeeders(Connection con) {
         return getStatement(con, "SELECT ID_FEEDER FROM FEEDER;");
+    }
+    
+    public static PreparedStatement UpdateStatusPet(Connection con) {
+        return getStatement(con, "UPDATE PET SET STATUS = ? WHERE ID_USER = ?;");
     }
     
 }

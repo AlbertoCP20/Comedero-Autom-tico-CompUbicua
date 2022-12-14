@@ -6,7 +6,9 @@ C:\Users\mfran\OneDrive\Documentos\NetBeansProjects\App\src\main\java\servlets\G
 C:\Users\mfran\OneDrive\Documentos\NetBeansProjects\App\src\main\java\servlets\GetRecords.java
 C:\Users\mfran\OneDrive\Documentos\NetBeansProjects\App\src\main\java\db\RecordJafe.java
 C:\Users\mfran\OneDrive\Documentos\NetBeansProjects\App\src\main\java\mqtt\MQTTSubscriber.java
+C:\Users\mfran\OneDrive\Documentos\NetBeansProjects\App\src\main\java\db\Measurement.java
 C:\Users\mfran\OneDrive\Documentos\NetBeansProjects\App\src\main\java\logic\ThreadTimeFood.java
+C:\Users\mfran\OneDrive\Documentos\NetBeansProjects\App\src\main\java\logic\ThreadDataTreatment.java
 C:\Users\mfran\OneDrive\Documentos\NetBeansProjects\App\src\main\java\servlets\PostRation.java
 C:\Users\mfran\OneDrive\Documentos\NetBeansProjects\App\src\main\java\servlets\GetSchedulesUser.java
 C:\Users\mfran\OneDrive\Documentos\NetBeansProjects\App\src\main\java\servlets\ValidateFeeder.java

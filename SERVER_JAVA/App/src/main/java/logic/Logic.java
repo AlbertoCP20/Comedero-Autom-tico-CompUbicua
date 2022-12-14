@@ -816,14 +816,15 @@ public class Logic {
         int newId;
         String idFeeder = "";
         
+        idFeeder = getIdFeederUser(idUser);
+        newId = getLastIdRation(idFeeder) + 1;
+        
         try
 	{
             con = conector.obtainConnection(true);
             Log.log.debug("Database Connected");
             PreparedStatement ps = ConnectionDDBB.InsertNewRation(con);
             
-            idFeeder = getIdFeederUser(idUser);
-            newId = getLastIdRation(idFeeder) + 1;
             ps.setInt(1, newId);
             ps.setTime(2, ration.getFoodTime());
             ps.setFloat(3, ration.getWeight());
@@ -846,7 +847,7 @@ public class Logic {
         } finally {
             conector.closeConnection(con);
 	}
-        return 1;
+        return newId;
     }
     
     public static int addUserToFeeder(int idUser, String idFeeder) {
@@ -1347,7 +1348,6 @@ public class Logic {
     }
     
     public static ArrayList<Measurement> getMeasurementsFromDB(String date) {
-        
         ArrayList<Measurement> measurements = new ArrayList<>();
         ArrayList<String> idFeeders;
 
@@ -1356,21 +1356,30 @@ public class Logic {
         
         try {
             idFeeders = getIdFeedersFromDB();
+            System.out.println(idFeeders);
             con = conector.obtainConnection(true);
             Log.log.debug("Database Connected");
-            PreparedStatement ps = ConnectionDDBB.GetWeightRecords(con);
-            ps.setDate(3, Date.valueOf(date));
+            PreparedStatement ps;
             
-            Log.log.info("Query=> {}", ps.toString());
             for (String idFeeder : idFeeders) {
+                ps = ConnectionDDBB.GetWeightRecords(con);
+                Log.log.info("Query=> {}", ps.toString());
+                
                 ps.setString(1, idFeeder);
                 ps.setString(2, idFeeder);
-                
+                ps.setDate(3, Date.valueOf(date));
+                System.out.println("Instruccion " + ps);
                 ResultSet rs = ps.executeQuery();
+                System.out.println(rs);
 
                 if (rs.next()) {
                     Measurement measurement = new Measurement();
+                    measurement.setWeightEnd(rs.getFloat("WEIGHTEND"));
+                    measurement.setWeightIni(rs.getFloat("WEIGHTINI"));
+                    measurement.setIdFeeder("id_feeder");
                     measurement.setIdUser(rs.getInt("id_user"));
+                    measurement.setIdPet(rs.getInt("id_pet"));
+                    measurement.setStatus(rs.getBoolean("status"));
 
                     measurements.add(measurement);
                 }	
@@ -1393,6 +1402,41 @@ public class Logic {
         }
         
         return measurements;
+    }
+    
+    public static int updateStatusPetFromDB(int idUser, boolean status) {
+
+	ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        
+        try {
+            
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+		
+            PreparedStatement ps = ConnectionDDBB.UpdateStatusPet(con);
+            ps.setBoolean(1, status);
+            ps.setInt(2, idUser);
+            
+            Log.log.info("Query=> {}", ps.toString());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            Log.log.error("Error: {}", e);
+            return -1; 
+            
+        } catch (NullPointerException e) {
+            Log.log.error("Error: {}", e);
+            return -1;
+            
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+            return -1; 
+            
+        } finally {
+            conector.closeConnection(con);
+	}
+        return 1;
     }
         
 }

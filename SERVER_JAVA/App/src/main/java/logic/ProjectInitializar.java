@@ -28,6 +28,9 @@ public class ProjectInitializar implements ServletContextListener {
         
         Log.log.info("-->Running time Thread<--");
         new ThreadTimeFood(broker2);
+        
+        Log.log.info("-->Running time Thread<--");
+        //new ThreadDataTreatment();
 
         Log.log.info("-->Arrancado<--");
     }
