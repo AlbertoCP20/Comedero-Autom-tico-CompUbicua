@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import db.ConnectionDDBB;
 import db.Feeder;
+import db.Measurement;
 import db.Pet;
 import db.RecordJafe;
 import db.Ration;
@@ -374,7 +375,7 @@ public class Logic {
             return 1;
         }
         else {
-            return -2;
+            return idUser;
         }
     }
     
@@ -1308,6 +1309,90 @@ public class Logic {
             conector.closeConnection(con);
 	}
         return ultimoCod;
+    }
+    
+    public static ArrayList<String> getIdFeedersFromDB() {
+        ArrayList<String> idFeeders = new ArrayList<>();
+	ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        
+        try {
+            
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+		
+            PreparedStatement ps = ConnectionDDBB.GetIdFeeders(con);
+            Log.log.info("Query=> {}", ps.toString());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                idFeeders.add(rs.getString("id_feeder"));
+            }
+             
+        } catch (SQLException e) {
+            Log.log.error("Error: {}", e);
+            idFeeders = new ArrayList<>(); 
+            
+        } catch (NullPointerException e) {
+            Log.log.error("Error: {}", e);
+            idFeeders = new ArrayList<>();
+            
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+            idFeeders = new ArrayList<>();
+            
+        } finally {
+            conector.closeConnection(con);
+	}
+        return idFeeders;
+    }
+    
+    public static ArrayList<Measurement> getMeasurementsFromDB(String date) {
+        
+        ArrayList<Measurement> measurements = new ArrayList<>();
+        ArrayList<String> idFeeders;
+
+        ConnectionDDBB conector = new ConnectionDDBB();
+        Connection con = null;
+        
+        try {
+            idFeeders = getIdFeedersFromDB();
+            con = conector.obtainConnection(true);
+            Log.log.debug("Database Connected");
+            PreparedStatement ps = ConnectionDDBB.GetWeightRecords(con);
+            ps.setDate(3, Date.valueOf(date));
+            
+            Log.log.info("Query=> {}", ps.toString());
+            for (String idFeeder : idFeeders) {
+                ps.setString(1, idFeeder);
+                ps.setString(2, idFeeder);
+                
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    Measurement measurement = new Measurement();
+                    measurement.setIdUser(rs.getInt("id_user"));
+
+                    measurements.add(measurement);
+                }	
+            }
+                
+        } catch (SQLException sqle) {
+            Log.log.error("Error: {}", sqle);
+            measurements = new ArrayList<>();
+                
+        } catch (NullPointerException npe) {
+            Log.log.error("Error: {}", npe);
+            measurements = new ArrayList<>();
+                
+        } catch (Exception e) {
+            Log.log.error("Error:{}", e);
+            measurements = new ArrayList<>();
+                
+        } finally {
+            conector.closeConnection(con);
+        }
+        
+        return measurements;
     }
         
 }

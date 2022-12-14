@@ -16,14 +16,14 @@ public class MQTTPublisher {
         MemoryPersistence persistence = new MemoryPersistence();
         
         try {
-            MqttClient sampleClient = new MqttClient(MQTTBroker.getBroker(), MQTTBroker.getClientId(), persistence);
+            MqttClient sampleClient = new MqttClient(broker.getBroker(), broker.getClientId(), persistence);
             MqttConnectOptions connOpts = new MqttConnectOptions();
             connOpts.setCleanSession(true);
-            Log.logmqtt.info("Connecting to broker: " + MQTTBroker.getBroker());
+            Log.logmqtt.info("Connecting to broker: " + broker.getBroker());
             sampleClient.connect(connOpts);
             Log.logmqtt.info("Connected");
             MqttMessage message = new MqttMessage(content.getBytes());
-            message.setQos(MQTTBroker.getQoS());
+            message.setQos(broker.getQoS());
             sampleClient.publish(topic, message);
             Log.logmqtt.info("Message published");
             sampleClient.disconnect();

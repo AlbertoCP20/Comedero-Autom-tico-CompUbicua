@@ -7,10 +7,10 @@ package mqtt;
 public class MQTTBroker {
     private static int qos = 2;
     private static String broker = "tcp://localhost:1883";
-    private static String clientId = "jafeServer";
+    private static String clientId;
     
-    public MQTTBroker() {
-        
+    public MQTTBroker(String clientId) {
+        this.clientId = clientId;
     }
     
     public static int getQoS() {

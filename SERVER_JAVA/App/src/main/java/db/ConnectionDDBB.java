@@ -248,4 +248,14 @@ public class ConnectionDDBB {
         return getStatement(con, "SELECT ID_SENSOR FROM SENSOR WHERE ID_FEEDER = ? AND TYPE = ?;");
     }
     
+    public static PreparedStatement GetWeightRecords(Connection con) {
+        return getStatement(con, "SELECT SUM(VALUE) AS WEIGHTEND, SUM(WEIGHTG) AS WEIGHTINI, FEEDER.ID_FEEDER, ID_USER FROM RECORD INNER JOIN FEEDER " +
+        "ON RECORD.ID_FEEDER = FEEDER.ID_FEEDER INNER JOIN RATION ON RECORD.ID_RATION = RATION.ID_RATION " +
+        "WHERE FEEDER.ID_FEEDER = ? AND RATION.ID_FEEDER = ? AND DATER = ? AND RECORD.ID_RATION <> \"\";");
+    }
+    
+    public static PreparedStatement GetIdFeeders(Connection con) {
+        return getStatement(con, "SELECT ID_FEEDER FROM FEEDER;");
+    }
+    
 }

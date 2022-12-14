@@ -19,8 +19,10 @@ import mqtt.MQTTPublisher;
 public class ThreadTimeFood extends Thread {
     private int TIME = 1;
     private int TICKS = 3;
+    private MQTTBroker broker;
     
-    public ThreadTimeFood() {
+    public ThreadTimeFood(MQTTBroker broker) {
+        this.broker = broker;
         start();
     }
     
@@ -33,7 +35,6 @@ public class ThreadTimeFood extends Thread {
         LocalTime dateTime; 
         long dif;
         
-        MQTTBroker broker = new MQTTBroker();
         MQTTPublisher.publish(broker, "TOCK/TOCK", "Prueba");
         
         while (true) {
@@ -50,8 +51,9 @@ public class ThreadTimeFood extends Thread {
                 System.out.println("diferencia - " + idFeeder);
                 
                 if (dif >= 0 && dif <= TIME && !feeders.containsKey(idFeeder)) {
+                    MQTTPublisher.publish(broker, "Comedero" + idFeeder + "/Horario", String.valueOf(schedules.get(i).getIdRation()));
                     MQTTPublisher.publish(broker, "Comedero" + idFeeder + "/Racion", String.valueOf(schedules.get(i).getWeight()));
-                    MQTTPublisher.publish(broker, "Comedero" + idFeeder + "/Signals", String.valueOf("2"));
+                    MQTTPublisher.publish(broker, "Comedero" + idFeeder + "/Signals", String.valueOf(2));
                     feeders.put(idFeeder, 0);
                 }
             }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package servlets;
 
 import com.google.gson.Gson;
@@ -38,8 +34,14 @@ public class ValidateFeeder extends HttpServlet {
             String idFeeder = request.getParameter("idFeeder");
             
             int value = Logic.getFeederValidation(idFeeder);
+            String jsonResponse;
+            if (value == 1) {
+                jsonResponse = new Gson().toJson(idFeeder);
+            }
+            else {
+                jsonResponse = new Gson().toJson(value);
+            }
             
-            String jsonResponse = new Gson().toJson(value);
             Log.log.info("JSON Value=> {}", jsonResponse);
             out.println(jsonResponse);
 
