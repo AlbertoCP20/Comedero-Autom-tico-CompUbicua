@@ -13,6 +13,7 @@ void ConnectMqtt() {
             Serial.println("Conexión completada");
             SuscribeMqtt("ComederoA30/Signals");
             SuscribeMqtt("ComederoA30/Racion");
+            SuscribeMqtt("ComederoA30/Horario");
             
       }
       else	{

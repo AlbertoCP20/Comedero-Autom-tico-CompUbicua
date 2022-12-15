@@ -35,6 +35,14 @@ bool isTopicRacion(){
   return flag;
 }
 
+bool isTopicHorario(){
+  bool flag = false;
+  if(top.equals("ComederoA30/Horario")){
+    flag = true;
+  }
+  return flag;
+}
+
 // Resets topic
 void setTopicDefault(){
   top = "";

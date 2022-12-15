@@ -36,6 +36,7 @@ float maxFoodWeight = 150; // The maximun amount of food that the bowl can hold
 float maxWaterWeight = 200; // The maximum amount of water that the bowl can hold
 float currentFoodWeight = 0;
 float currentWaterWeight = 0;
+int horario;
 
 void setup() {
   Serial.begin(115200);
@@ -63,6 +64,10 @@ void loop() {
     maxFoodWeight = getContent();
     setTopicDefault();
   }
+
+  if(isTopicHorario()){
+    horario = getContent();
+  }
   
   // If server wants to get the values of the weight and the infraredSensor
   if(getContent() == 1){
@@ -74,8 +79,10 @@ void loop() {
     if(currentFoodWeight < 0){
       currentFoodWeight = 0;
     }
-    PublishMqtt("ComederoA30/Sensor/PressureF",currentFoodWeight);
+    String message = String(horario) + ("/") +String(currentFoodWeight);
+    
     PublishMqtt("ComederoA30/Sensor/Infrared",infraredSensor());
+    mqttClient.publish("ComederoA30/Sensor/PressureF",(char*)message.c_str()); // Can´t use the method because we want to pass a String
     // Reset signals
     PublishMqtt("ComederoA30/Signals",0);
   }
