@@ -19,31 +19,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/UserPicture"
-                android:layout_width="87dp"
-                android:layout_height="95dp"
-                android:contentDescription="@string/user_image"
-                android:src="@drawable/icono_usuario"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.048"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.024"
-                tools:ignore="ImageContrastCheck" />
-
             <TextView
                 android:id="@+id/tittle_edit_profile_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="370dp"
+                android:layout_height="57dp"
                 android:text="@string/edit_profile_info"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.064"
+                app:layout_constraintHorizontal_bias="0.295"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.182"
+                app:layout_constraintVertical_bias="0.114"
                 tools:ignore="TextContrastCheck" />
 
             <Button
@@ -61,15 +47,44 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.023" />
 
-            <ScrollView
-                android:id="@+id/scrollView3"
-                android:layout_width="391dp"
-                android:layout_height="493dp"
+            <TextView
+                android:id="@+id/tittle_delete_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete_profile_account"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.064"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.825"
+                tools:ignore="TextContrastCheck" />
+
+            <Button
+                android:id="@+id/deleteAccountButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/deleteAccount"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:icon="@drawable/eliminar_peq"
+                app:iconGravity="textEnd"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.65999997">
+                app:layout_constraintVertical_bias="0.89" />
+
+            <ScrollView
+                android:id="@+id/scrollView3"
+                android:layout_width="392dp"
+                android:layout_height="439dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.47">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -84,15 +99,12 @@
                         android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
-                    <EditText
-                        android:id="@+id/change_name"
+                    <TextView
+                        android:id="@+id/name_text"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints=""
-                        android:ems="10"
-                        android:hint="@string/NameHint"
-                        android:inputType="textPersonName"
-                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+                        android:layout_height="43dp"
+                        android:text="@string/NameHint"
+                        android:textSize="28sp" />
 
                     <TextView
                         android:id="@+id/tittle_change_fisrt_surname"
@@ -102,15 +114,12 @@
                         android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
-                    <EditText
-                        android:id="@+id/change_first_surname"
+                    <TextView
+                        android:id="@+id/fsurname_text"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints=""
-                        android:ems="10"
-                        android:hint="@string/FirstSurnameHint"
-                        android:inputType="textPersonName"
-                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+                        android:layout_height="43dp"
+                        android:text="@string/FirstSurnameHint"
+                        android:textSize="28sp" />
 
                     <TextView
                         android:id="@+id/tittle_change_second_surname"
@@ -120,15 +129,12 @@
                         android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
-                    <EditText
-                        android:id="@+id/change_second_surname"
+                    <TextView
+                        android:id="@+id/ssurname_text"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints=""
-                        android:ems="10"
-                        android:hint="@string/SecondSurnameHint"
-                        android:inputType="textPersonName"
-                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+                        android:layout_height="43dp"
+                        android:text="@string/SecondSurnameHint"
+                        android:textSize="28sp" />
 
                     <TextView
                         android:id="@+id/tittle_change_email"
@@ -138,15 +144,12 @@
                         android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
-                    <EditText
-                        android:id="@+id/change_email"
+                    <TextView
+                        android:id="@+id/email_text"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints=""
-                        android:ems="10"
-                        android:hint="@string/EmailHint"
-                        android:inputType="textEmailAddress"
-                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+                        android:layout_height="43dp"
+                        android:text="@string/EmailHint"
+                        android:textSize="28sp" />
 
                     <TextView
                         android:id="@+id/tittle_change_password"
@@ -156,33 +159,27 @@
                         android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
-                    <EditText
-                        android:id="@+id/cange_password"
+                    <TextView
+                        android:id="@+id/password_text"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints=""
-                        android:ems="10"
-                        android:hint="@string/PasswordHint"
-                        android:inputType="textPassword"
-                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+                        android:layout_height="43dp"
+                        android:text="@string/hidePass"
+                        android:textSize="28sp" />
 
                     <TextView
-                        android:id="@+id/tittle_confirm_change_password"
+                        android:id="@+id/tittle_change_pet_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/ConfirmNewPasswordHint"
+                        android:text="@string/PetName"
                         android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
-                    <EditText
-                        android:id="@+id/editTextTextPassword2"
+                    <TextView
+                        android:id="@+id/pet_name_text"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints=""
-                        android:ems="10"
-                        android:hint="@string/ConfirmNewPasswordHint"
-                        android:inputType="textPassword"
-                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+                        android:layout_height="43dp"
+                        android:text="@string/PetName"
+                        android:textSize="28sp" />
 
                     <TextView
                         android:id="@+id/tittle_change_pet_type"
@@ -192,14 +189,27 @@
                         android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
-                    <Spinner
-                        android:id="@+id/change_select_pet_type"
+                    <TextView
+                        android:id="@+id/pet_type_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"
+                        android:text="@string/SelectPetTypeHint"
+                        android:textSize="28sp" />
+
+                    <TextView
+                        android:id="@+id/tittle_change_pet_gender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:contentDescription="@string/SelectPetTypeHint"
-                        android:minHeight="48dp"
-                        android:visibility="visible"
-                        tools:ignore="DuplicateSpeakableTextCheck" />
+                        android:text="@string/PetGenderHint"
+                        android:textColor="#EC8800"
+                        tools:ignore="TextContrastCheck" />
+
+                    <TextView
+                        android:id="@+id/pet_gender_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"
+                        android:text="@string/PetGenderHint"
+                        android:textSize="28sp" />
 
                     <TextView
                         android:id="@+id/tittle_change_pet_weight"
@@ -209,15 +219,12 @@
                         android:textColor="#EC8800"
                         tools:ignore="TextContrastCheck" />
 
-                    <EditText
-                        android:id="@+id/change_pet_weight"
+                    <TextView
+                        android:id="@+id/pet_weight_text"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints=""
-                        android:ems="10"
-                        android:hint="@string/PetWeightHint"
-                        android:inputType="numberDecimal"
-                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+                        android:layout_height="43dp"
+                        android:text="@string/PetWeightHint"
+                        android:textSize="28sp" />
 
                     <TextView
                         android:id="@+id/tittle_change_id_feeder"
@@ -226,24 +233,13 @@
                         android:text="@string/IDFeederHint"
                         android:textColor="#EC8800" />
 
-                    <EditText
-                        android:id="@+id/change_id_feeder"
+                    <TextView
+                        android:id="@+id/id_feeder_text"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints=""
-                        android:ems="10"
-                        android:hint="@string/IDFeederHint"
-                        android:inputType="textPersonName"
-                        tools:ignore="DuplicateSpeakableTextCheck" />
+                        android:layout_height="43dp"
+                        android:text="@string/IDFeederHint"
+                        android:textSize="28sp" />
 
-                    <Button
-                        android:id="@+id/SaveChangesButton"
-                        android:layout_width="154dp"
-                        android:layout_height="66dp"
-                        android:layout_gravity="center"
-                        android:text="@string/SaveButton"
-                        android:textColor="#FFFFFF"
-                        android:textSize="20sp" />
                 </LinearLayout>
             </ScrollView>
 

@@ -161,6 +161,25 @@
                         tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
 
                     <TextView
+                        android:id="@+id/tittle_pet_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/PetName"
+                        android:textColor="#EC8800"
+                        tools:ignore="TextContrastCheck" />
+
+                    <EditText
+                        android:id="@+id/newPetName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints=""
+                        android:ems="10"
+                        android:hint="@string/PetName"
+                        android:inputType="textPersonName"
+                        android:minHeight="48dp"
+                        tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
+
+                    <TextView
                         android:id="@+id/tittle_change_pet_type2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -170,6 +189,23 @@
 
                     <Spinner
                         android:id="@+id/SelectPetType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/SelectPetTypeHint"
+                        android:minHeight="48dp"
+                        android:visibility="visible"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+                    <TextView
+                        android:id="@+id/tittle_pet_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/PetGenderHint"
+                        android:textColor="#EC8800"
+                        tools:ignore="TextContrastCheck" />
+
+                    <Spinner
+                        android:id="@+id/selectPetGender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/SelectPetTypeHint"

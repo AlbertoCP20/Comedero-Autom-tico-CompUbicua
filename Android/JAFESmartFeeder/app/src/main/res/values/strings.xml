@@ -14,9 +14,11 @@
     <string name="SecondSurnameHint">SEGUNDO APELLIDO</string>
     <string name="ConfirmNewPasswordHint">REPETIR CONTRASEÑA</string>
     <string name="SelectPetTypeHint">TIPO DE MASCOTA</string>
+    <string name="PetName">NOMBRE MASCOTA</string>
     <string name="Dog">PERRO</string>
     <string name="Cat">GATO</string>
     <string name="PetWeightHint">PESO EN KG</string>
+    <string name="PetGenderHint">GENERO</string>
     <string name="IDFeederHint">ID COMEDERO</string>
     <string name="SaveButton">GUARDAR</string>
     <string name="title_activity_main_menu">MENU</string>
@@ -24,7 +26,8 @@
     <string name="title_portion">RACIONES</string>
     <string name="title_profile">PERFIL</string>
     <string name="user_image">user image</string>
-    <string name="edit_profile_info">Edita los datos de tu perfil:</string>
+    <string name="edit_profile_info">Para cambiar algún dato, haría falta eliminar la cuenta y crear una nueva ya que habría perturbaciones en nuestros datos estadísticos:</string>
+    <string name="delete_profile_account">Para eliminar tu cuenta:</string>
     <string name="tittle_next_portion">Próxima ración en:</string>
     <string name="tittle_status_portion">Porcentaje que ha comido tu mascota</string>
     <string name="tittle_advices">Consejos y recomendaciones</string>
@@ -32,11 +35,12 @@
     <string name="countdown">00:00:00</string>
     <string name="advise_text">Aqui se muestran los consejos</string>
     <string name="logout">Cerrar sesión</string>
+    <string name="deleteAccount">Borrar</string>
     <string name="tittle_add_portion">Programa una nueva ración:</string>
     <string name="tittle_select_hour">Hora (formato 24h):</string>
     <string name="select_hour">Introduce una hora</string>
     <string name="tittle_select_portion">Cantidad (gramos):</string>
-    <string name="max_portion">Máximo 500g</string>
+    <string name="max_portion">Máximo 100g</string>
     <string name="deleteButton">Borrar</string>
     <string name="addButton">Añadir</string>
     <string name="tittle_delete_portion">Borra una ración:</string>
@@ -44,4 +48,5 @@
     <string name="select_ID">ID</string>
     <string name="text_advise">Para editar una ración, borrala y vuelvela a añadir.</string>
     <string name="portions_table">Aquí se mostrarán las raciones añadidas</string>
+    <string name="hidePass">*********</string>
 </resources>

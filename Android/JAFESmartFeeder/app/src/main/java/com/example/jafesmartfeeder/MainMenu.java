@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.jafesmartfeeder.ui.intro.IntroFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,9 @@ import com.example.jafesmartfeeder.databinding.ActivityMainMenuBinding;
 public class MainMenu extends AppCompatActivity {
 
     private com.example.jafesmartfeeder.databinding.ActivityMainMenuBinding binding;
+    private static String idUser;
+    private static String idFeeder;
+    private static String ip = "192.168.1.86";
 
 
     @Override
@@ -41,7 +45,21 @@ public class MainMenu extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
+        SharedPreferences preferences = getSharedPreferences("session", Context.MODE_PRIVATE);
+        idUser = preferences.getString("user_id", "No almacenado");
+        idFeeder = preferences.getString("feeder_id", "No encontrado");
+    }
 
+    public static String getIdUser () {
+        return idUser;
+    }
+
+    public static String getIP () {
+        return ip;
+    }
+
+    public static String getIdFeeder () {
+        return idFeeder;
     }
 
 }

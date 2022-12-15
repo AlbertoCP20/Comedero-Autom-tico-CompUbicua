@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 
+import com.example.jafesmartfeeder.MainMenu;
 import com.example.jafesmartfeeder.R;
 
 import android.widget.Toast;
@@ -17,9 +18,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.jafesmartfeeder.ServerConnectionThread;
 import com.example.jafesmartfeeder.databinding.FragmentPortionBinding;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PortionFragment extends Fragment {
 
@@ -33,6 +37,7 @@ public class PortionFragment extends Fragment {
     private TableDynamic tableDynamic;
     private Button addButton;
     private Button deleteButton;
+    private String respuestaServidor;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -81,15 +86,51 @@ public class PortionFragment extends Fragment {
     }
 
     private ArrayList<String[]> getPortions() {
-        rows.add(new String[] {"1", "12:30h", "100g"});
+        /*rows.add(new String[] {"1", "09:30h", "100g"});
         rows.add(new String[] {"2", "15:00h", "150g"});
-        rows.add(new String[] {"3", "20:00h", "50g"});
-        rows.add(new String[] {"4", "12:30h", "100g"});
-        rows.add(new String[] {"5", "15:00h", "150g"});
-        rows.add(new String[] {"6", "20:00h", "50g"});
-        rows.add(new String[] {"7", "12:30h", "100g"});
-        rows.add(new String[] {"8", "15:00h", "150g"});
-        rows.add(new String[] {"9", "20:00h", "50g"});
+        rows.add(new String[] {"3", "20:30h", "50g"});*/
+        String servlet = "http://" + MainMenu.getIP() + ":8080/App/";
+        String completeURL = servlet + "GetRationsUser?idUser=" + String.valueOf(MainMenu.getIdUser());
+        System.out.println(completeURL);
+        ServerConnectionThread thread = new ServerConnectionThread(this, completeURL);
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            Toast.makeText(getContext(), "Hilo sin respuesta.", Toast.LENGTH_SHORT).show();
+        }
+        String[] splitAnswer = respuestaServidor.split("\n");
+        String [] datosRaciones = splitAnswer[0].split(",");
+        System.out.println(Arrays.toString(datosRaciones));
+        ArrayList<String> idRations = new ArrayList<>();
+        ArrayList<String> hoursRations = new ArrayList<>();
+        ArrayList<String> cuantities = new ArrayList<>();
+        for (int i = 0; i < datosRaciones.length; i++) {
+            if (datosRaciones[i].contains("foodTime")) {
+                String[] splitFoodTime = datosRaciones[i].split(":");
+                String[] splitHour = splitFoodTime[1].split("");
+                int hora = 0;
+                int min = Integer.parseInt(splitFoodTime[2]);
+                if (splitFoodTime[3].contains("p. m")) {
+                    hora = Integer.parseInt(splitHour[1] + splitHour[2]) + 12;
+
+                } else {
+                    hora = Integer.parseInt(splitHour[1] + splitHour[2]);
+                }
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    LocalTime hRaction = LocalTime.of(hora, min);
+                    hoursRations.add(hRaction.toString());
+                }
+            } else if (datosRaciones[i].contains("idRation")) {
+                String[] splitidRation = datosRaciones[i].split(":");
+                idRations.add(splitidRation[1]);
+            } else if (datosRaciones[i].contains("weight")) {
+                String[] splitWeight = datosRaciones[i].split(":");
+                cuantities.add(splitWeight[1]);
+            }
+        }
+        for (int i = 0; i < idRations.size(); i++) {
+            rows.add(new String[] {idRations.get(i), hoursRations.get(i) + "h", cuantities.get(i) + "g"});
+        }
         return rows;
     }
 
@@ -106,14 +147,28 @@ public class PortionFragment extends Fragment {
                     if ((0 <= introdMin) && (introdMin <= 59)) {
                         int introdAmount = Integer.parseInt(introducedAmount);
                         //Aqui habrá que cambiar para ajustar al tope que tendremos del cuenco.
-                        if ((0 <= introdAmount) && (introdAmount <= 500)) {
+                        if ((0 <= introdAmount) && (introdAmount <= 100)) {
                             ArrayList<String[]> data = tableDynamic.getData();
-                            int nextID = Integer.parseInt(data.get(data.size()-1)[0]) + 1;
-                            String[] item = new String[] {String.valueOf(nextID), hour.getText().toString() + "h", amount.getText().toString() + "g"};
-                            tableDynamic.addItems(item);
-                            hour.setText("");
-                            amount.setText("");
-                            Toast.makeText(getActivity(), "Ración añadida.", Toast.LENGTH_SHORT).show();
+                            String servlet = "http://" + MainMenu.getIP() + ":8080/App/";
+                            String completeURL = servlet + "PostRation?idUser=" + MainMenu.getIdUser() + "&time=" + hour.getText().toString() + ":00&weight=" + amount.getText().toString();
+                            System.out.println(completeURL);
+                            ServerConnectionThread thread = new ServerConnectionThread(this, completeURL);
+                            try {
+                                thread.join();
+                            } catch (InterruptedException e) {
+                                Toast.makeText(getContext(), "Hilo sin respuesta.", Toast.LENGTH_SHORT).show();
+                            }
+                            String[] splitAnswer = respuestaServidor.split("\n");
+                            if (splitAnswer[0].equals("-1")) {
+                                Toast.makeText(getActivity(), "Error al añadir ración.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                String nextID = splitAnswer[0];
+                                String[] item = new String[] {nextID, hour.getText().toString() + "h", amount.getText().toString() + "g"};
+                                tableDynamic.addItems(item);
+                                hour.setText("");
+                                amount.setText("");
+                                Toast.makeText(getActivity(), "Ración añadida.", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             Toast.makeText(getActivity(), "Porfavor, introduce una cantidad válida.", Toast.LENGTH_SHORT).show();
                         }
@@ -135,8 +190,18 @@ public class PortionFragment extends Fragment {
     private void deletePortion () {
         String introducedID = id.getText().toString();
         if (!introducedID.equals("")) {
+            String servlet = "http://" + MainMenu.getIP() + ":8080/App/";
+            String completeURL = servlet + "DeleteRation?idUser=" + MainMenu.getIdUser() + "&idRation=" + introducedID;
+            System.out.println(completeURL);
+            ServerConnectionThread thread = new ServerConnectionThread(this, completeURL);
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                Toast.makeText(getContext(), "Hilo sin respuesta.", Toast.LENGTH_SHORT).show();
+            }
+            String[] splitAnswer = respuestaServidor.split("\n");
             boolean removed = tableDynamic.removeRow(introducedID);
-            if (removed) {
+            if ((splitAnswer[0].equals("1")) &&  (removed)) {
                 id.setText("");
                 Toast.makeText(getActivity(), "Ración eliminada.", Toast.LENGTH_SHORT).show();
             } else {
@@ -145,5 +210,9 @@ public class PortionFragment extends Fragment {
         } else {
             Toast.makeText(getActivity(), "Introduce un ID.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void setRespuestaServidor(String respuestaServidor) {
+        this.respuestaServidor = respuestaServidor;
     }
 }

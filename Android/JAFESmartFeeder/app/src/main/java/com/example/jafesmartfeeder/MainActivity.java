@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText password;
     //private String tag = "MainActivity";
     private String respuestaServidor;
+    private String ip = "192.168.1.86";
+    private String idUser = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,29 +96,34 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Porfavor, introduce correo y contraseña.", Toast.LENGTH_SHORT).show();
         } else {
             //Nos conectamos al servlet y evaluamos la respuesta obtenida
-            String servlet = "http://192.168.1.63:8080/App/";
-            String completeURL = servlet+"Login?email=" + email.getText().toString() + "&password=" + password.getText().toString();
+            String servlet = "http://" + ip + ":8080/App/";
+            String completeURL = servlet+"Login?email=" + introducedEmail + "&password=" + introducedPassword;
             ServerConnectionThread thread = new ServerConnectionThread(this, completeURL);
             try {
                 thread.join();
             } catch (InterruptedException e) {
                 Toast.makeText(this, "Hilo sin respuesta.", Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(this, "Respuesta:" + respuestaServidor, Toast.LENGTH_SHORT).show();
             String[] splitAnswer = respuestaServidor.split("\n");
             if (!splitAnswer[0].equals("No")) {
-                if (splitAnswer[0].equals("1")) {
+                if (splitAnswer[0].equals("0")) {
+                    Toast.makeText(this, "Correo no válido.", Toast.LENGTH_SHORT).show();
+                } else if (splitAnswer[0].equals("-2")) {
+                    Toast.makeText(this, "Contraseña no válida.", Toast.LENGTH_SHORT).show();
+                } else {
                     //Acceder a la siguiente pantalla
+                    SharedPreferences preferences = getSharedPreferences("session", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("user_id", splitAnswer[0]);
+                    editor.commit();
                     Toast.makeText(this, "¡Hola de nuevo!", Toast.LENGTH_SHORT).show();
+                    idUser = splitAnswer[0];
                     saveSession();
 
                     Intent i = new Intent(this, MainMenu.class);
+                    //i.putExtra("idUser", splitAnswer[0]);
                     startActivity(i);
                     finish();
-                } else if (splitAnswer[0].equals("2")) {
-                    Toast.makeText(this, "Contraseña no válida.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Correo no válido.", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(this, "Servidor desconectado.", Toast.LENGTH_SHORT).show();
@@ -150,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         if (introducedEmail.equals("")) {
             Toast.makeText(this, "Porfavor, introduce correo.", Toast.LENGTH_SHORT).show();
         } else {
-            String servlet = "http://192.168.1.63:8080/App/";
+            String servlet = "http://" + ip + ":8080/App/";
             String completeURL = servlet+"PasswordReminder?email=" + email.getText().toString();
             ServerConnectionThread thread = new ServerConnectionThread(this, completeURL);
             try {
@@ -158,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 Toast.makeText(this, "Hilo sin respuesta.", Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(this, "Respuesta:" + respuestaServidor, Toast.LENGTH_SHORT).show();
             String[] splitAnswer = respuestaServidor.split("\n");
             String respuesta = splitAnswer[0];
             System.out.println(respuesta);
