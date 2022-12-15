@@ -40,7 +40,13 @@ public class GetRecordsPortion extends HttpServlet {
         try {
             ArrayList<RecordJafe> values = Logic.getRecordsPortion(idUser, idPortion, date);
             
-            String jsonRecords = new Gson().toJson(values);
+            String jsonRecords;
+            if (values.isEmpty()) {
+                jsonRecords = new Gson().toJson(0);
+            }
+            else {
+                jsonRecords = new Gson().toJson(values);
+            }
             Log.log.info("JSON Values=> {}", jsonRecords);
             out.println(jsonRecords);
 

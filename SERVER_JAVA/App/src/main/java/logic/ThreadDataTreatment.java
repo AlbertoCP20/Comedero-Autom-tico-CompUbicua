@@ -35,14 +35,15 @@ public class ThreadDataTreatment extends Thread {
             
             measurements = Logic.getMeasurementsFromDB(formattedDate);
             System.out.println("lista hilo " + measurements);
-            Log.log.info(measurements);
+            System.out.println("AQUI" + measurements.get(0).getIdUser());
             Measurement measurement;
             for (int i = 0; i < measurements.size(); i++) {
                 measurement = measurements.get(i);
                 System.out.println(measurement.getWeightEnd());
                 System.out.println(measurement.getWeightIni());
+                System.out.println("ID_FEEDER" + measurement.getIdFeeder());
                 
-                if (measurement.getWeightEnd() < (measurement.getWeightIni() / 2)) {
+                if (measurement.getWeightEnd() > (measurement.getWeightIni() / 3)) {
                     System.out.println("Entro");
                     if (measurement.isStatus()) {
                         Logic.updateStatusPetFromDB(measurement.getIdUser(), false);

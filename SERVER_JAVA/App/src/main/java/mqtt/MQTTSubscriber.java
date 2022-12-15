@@ -95,10 +95,12 @@ public class MQTTSubscriber implements MqttCallback{
         
         if (topic.contains("Sensor")) {
             String idFeeder = topics[0].replace("Comedero", "");
-            
-            if (topic.contains("PreassureF")) {
+            System.out.println("ES SENSOR");
+            if (topic.contains("PressureF")) {
                 String messageText = message.toString();
                 String[] listMessage = messageText.split("/");
+                System.out.println("" + listMessage[0] + " " + listMessage[1]);
+                
                 newTopic.setIdFeeder(idFeeder); 
                 newTopic.setType("Presión");
                 newTopic.setIdRation(Integer.parseInt(listMessage[0]));
@@ -110,7 +112,7 @@ public class MQTTSubscriber implements MqttCallback{
                 Logic.storeNewMeasurement(newTopic);
             }
             else if (topic.contains("Infrared")){
-                
+                System.out.println("mensaje");
                 newTopic.setIdFeeder(idFeeder);
                 newTopic.setType("Infrarrojo");
                 newTopic.setValor(Float.parseFloat(message.toString()));

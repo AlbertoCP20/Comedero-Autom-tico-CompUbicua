@@ -725,12 +725,13 @@ public class Logic {
             con = conector.obtainConnection(true);
             Log.log.debug("Database Connected");
             PreparedStatement ps = ConnectionDDBB.GetRecordsPortion(con);
-            Log.log.info("Query=> {}", ps.toString());
             
             ps.setInt(1, Integer.parseInt(idUser));
             ps.setInt(2, Integer.parseInt(idPortion));
-            ps.setDate(3, Date.valueOf(date));
+            ps.setInt(3, getIdSensor(getIdFeederUser(idUser), "Presión"));
+            ps.setDate(4, Date.valueOf(date));
             ResultSet rs = ps.executeQuery();
+            Log.log.info("Query=> {}", ps.toString());
             
             while (rs.next()) {
                 RecordJafe recordJafe = new RecordJafe();
@@ -948,7 +949,12 @@ public class Logic {
             ps.setDate(2, Date.valueOf(LocalDate.now(ZoneId.of("Europe/Madrid"))));
             ps.setTime(3, Time.valueOf(LocalTime.now(ZoneId.of("Europe/Madrid"))));
             ps.setFloat(4, newTopic.getValor());
-            ps.setNull(5, Types.INTEGER);
+            //if (newTopic.getIdRation() != 0) {
+                ps.setInt(5, newTopic.getIdRation());
+            /*}
+            else {
+                ps.setNull(5, Types.INTEGER);
+            }*/
             ps.setInt(6, idSensor);
             ps.setString(7, newTopic.getIdFeeder());
             

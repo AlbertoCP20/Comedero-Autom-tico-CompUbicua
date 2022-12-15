@@ -160,7 +160,7 @@ public class ConnectionDDBB {
     public static PreparedStatement GetRecordsPortion(Connection con) {
         return getStatement(con, "SELECT ID_RECORD, DATER, TIMER, VALUE, ID_RATION, ID_SENSOR, RECORD.ID_FEEDER FROM RECORD INNER JOIN FEEDER\n" +
             "ON RECORD.ID_FEEDER = FEEDER.ID_FEEDER INNER JOIN USER ON FEEDER.ID_USER = USER.ID_USER\n" +
-            "WHERE USER.ID_USER = ? AND RECORD.ID_RATION = ? AND RECORD.DATER = ?;");
+            "WHERE USER.ID_USER = ? AND RECORD.ID_RATION = ? AND ID_SENSOR = ? AND RECORD.DATER = ?;");
     }
     
     public static PreparedStatement GetStatusPetByUser(Connection con) {

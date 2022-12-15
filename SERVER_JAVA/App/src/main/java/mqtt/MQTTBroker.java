@@ -6,7 +6,7 @@ package mqtt;
  */
 public class MQTTBroker {
     private static int qos = 2;
-    private static String broker = "tcp://localhost:1883";
+    private static String broker = "tcp://192.168.1.47:1883";
     private static String clientId;
     
     public MQTTBroker(String clientId) {

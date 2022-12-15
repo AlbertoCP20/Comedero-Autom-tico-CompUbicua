@@ -30,7 +30,7 @@ public class ProjectInitializar implements ServletContextListener {
         new ThreadTimeFood(broker2);
         
         Log.log.info("-->Running time Thread<--");
-        //new ThreadDataTreatment();
+        new ThreadDataTreatment();
 
         Log.log.info("-->Arrancado<--");
     }
